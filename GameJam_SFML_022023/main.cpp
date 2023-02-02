@@ -46,11 +46,9 @@ int main()
     pixels[0].position = sf::Vector2f(100.f, 100.f);
     pixels[0].color = sf::Color::Red;
     sf::Texture texture;
-    if (!texture.loadFromFile("C:\\Downloads\\texture4.png"))
-        return 1;
+ 
     sf::Music music;
-    if (!music.openFromFile("\\\\NUKOWAI\\Music_All\\MUSIC\\SingleTracks\\EncoderLoop.flac"))
-        return 1;
+
     music.setLoop(true);
     music.play();
     std::vector<sf::Vector2f> vertices = {
