@@ -24,6 +24,8 @@ void	Game::update_values() {
 	{
 		plant.grow(10.f, delta.asSeconds());
 	}
+	player.handle_movement(delta);
+	player.update_position(delta);
 }
 
 void	Game::render() {
