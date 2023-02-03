@@ -10,12 +10,14 @@ enum e_game_status
 class Game {
 public:
 	int					status;
-	Player				player;
 	std::vector<Plant>	plants;
 	sf::Clock			clock;
 	sf::Time			delta;
 	sf::RenderWindow	window;
 	sf::Texture			texture;
+	sf::Texture			texture_player;
+	Player				player;
+
 
 	Game(const char* name, int w, int h);
 

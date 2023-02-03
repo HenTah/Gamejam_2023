@@ -6,7 +6,10 @@ Game::Game(const char *name, int w, int h) {
 	delta = clock.restart();
 	if (!texture.loadFromFile(ROOT_TEXTURE))
 		exit(NULL);
+	if (!texture_player.loadFromFile(PLAYER_TEXTURE))
+		exit(NULL);
 	plants.push_back(Plant(&texture, 1.f, WIN_W / 2.f));
+	player.init(&texture_player);
 }
 
 void	Game::handle_events(sf::Event& event) {
@@ -30,5 +33,6 @@ void	Game::render() {
 	{
 		window.draw(plant);
 	}
+	window.draw(player);
 	window.display();
 }
