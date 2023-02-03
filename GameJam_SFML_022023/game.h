@@ -2,8 +2,15 @@
 #include <SFML/Graphics.hpp>
 #include "player.h"
 
+enum e_game_status
+{
+	STATUS_GAME,
+	STATUS_GAMEOVER
+};
+
 class Game {
 public:
+	int					status;
 	Player				player;
 	//std::vector<Plant>	plants;
 	sf::Clock			clock;

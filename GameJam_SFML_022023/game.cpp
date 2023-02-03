@@ -27,6 +27,6 @@ void	Game::render() {
 	{
 		window.draw(plant);
 	}*/
-
+	window.draw(player);
 	window.display();
 }
