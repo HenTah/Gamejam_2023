@@ -10,7 +10,7 @@ enum e_game_status
 class Game {
 public:
 	int					status;
-	std::vector<Plant>	plants;
+	std::vector<Root>	roots;
 	sf::Clock			clock;
 	sf::Time			delta;
 	sf::RenderWindow	window;
