@@ -37,12 +37,14 @@
 		base.setSize(sf::Vector2f(size * 0.64, size));
 		tex = texture;
 		alive = 0.f;
+		killed = false;
 		segments.emplace_back(base.getPosition(), size, tex);
 		position.y += size;
 	}
 	void Root::update(float dt)
 	{
-		if (!segments.back().get_active())
+		alive += dt;
+		if (!segments.back().get_active() && alive > 0.f)
 		{
 			segments.emplace_back(sf::Vector2f(base.getPosition().x, base.getPosition().y + base.getSize().y), base.getSize().y, this->tex);
 			base.setPosition(sf::Vector2f(base.getPosition().x, base.getPosition().y + base.getSize().y));
@@ -93,5 +95,14 @@
 
 	void Root::cut(double height)
 	{
-		
+		for (auto& segment : segments)
+		{
+			if (height < segment.getPosition().y)
+			{
+				base.setPosition(sf::Vector2f(base.getPosition().x, segments.back().getPosition().y - base.getSize().y));
+				segments.pop_back();
+				alive = -2.5f;
+				break;
+			}
+		}
 	}

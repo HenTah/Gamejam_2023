@@ -33,10 +33,16 @@ void	Game::handle_events(sf::Event& event) {
 
 void	Game::update_values() {
 	delta = clock.restart();
-
+	sf::FloatRect obj;
+	sf::FloatRect collider = player.getGlobalBounds();
 	for (Root& root : roots)
 	{
 		root.update(delta.asSeconds());
+		obj = root.getGlobalBounds();
+		if (collider.intersects(obj))
+		{
+			root.cut(collider.top);
+		}
 	}
 
 	player.handle_movement(delta);

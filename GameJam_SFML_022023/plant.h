@@ -27,6 +27,7 @@ public:
 	sf::FloatRect	getGlobalBounds();
 	void			cut(double height);
 private:
+	bool			killed;
 	sf::RectangleShape base;
 	std::vector<RootSegment> segments;
 	double			alive;
