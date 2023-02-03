@@ -26,7 +26,6 @@ void	Game::render() {
 	/*for (Plant& plant : plants)
 	{
 		window.draw(plant);
-	}*/
-	window.draw(player);
+	}
 	window.display();
 }

@@ -1,6 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "player.h"
+#include "main.h"
 
 enum e_game_status
 {
@@ -10,12 +9,12 @@ enum e_game_status
 
 class Game {
 public:
-	int					status;
-	Player				player;
-	//std::vector<Plant>	plants;
-	sf::Clock			clock;
-	sf::Time			delta;
-	sf::RenderWindow	window;
+	//Player				player;
+	std::vector<Plant>	plants;
+	sf::Clock					clock;
+	sf::Time					delta;
+	sf::RenderWindow			window;
+	sf::Texture					texture;
 
 	Game(const char* name, int w, int h);
 
