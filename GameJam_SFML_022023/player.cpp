@@ -15,6 +15,7 @@ void	Player::init(sf::Texture* texture)
 	this->setScale(1.f, 1.f);
 	this->setPosition(sf::Vector2f((float)((WIN_W - PLAYER_W) / 2), 0.f));
 	this->_animation.restart();
+	this->_animation_state = IDLE;
 	this->_frame_id = 0;
 	this->_facing_right = true;
 }
@@ -22,32 +23,36 @@ void	Player::init(sf::Texture* texture)
 void	Player::take_damage(int damage)
 {
 	this->_health -= damage;
-	printf("HP: %d\n", this->_health);
 }
 
 void	Player::handle_movement(sf::Time delta)
 {
+	this->_is_idle = true;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		this->_facing_right = false;
 		this->_velocity += sf::Vector2f(-MOVEMENT_ACCELERATION * delta.asSeconds(), 0.f);
+		this->_change_state(RUN);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		this->_facing_right = true;
 		this->_velocity += sf::Vector2f(MOVEMENT_ACCELERATION * delta.asSeconds(), 0.f);
+		this->_change_state(RUN);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		this->_jump();
+
+	if (this->_is_idle && this->getPosition().y >= 0.f)
+		this->_change_state(IDLE);
 
 	this->_velocity.x *= MOVEMENT_DRAG_COEFFICIENT;
 	if (fabsf(this->_velocity.x) < MIN_HORIZONTAL_MOVEMENT)
 		this->_velocity.x = 0.f;
 	this->_velocity.y += GRAVITY * delta.asSeconds();
 	this->_clamp_velocity();
-	this->_animation_state = IDLE;
 	if (this->_animation.getElapsedTime().asSeconds() > ANIMATION_UPDATE_FREQUENCY)
 		this->_progress_animation();
 }
@@ -62,6 +67,7 @@ void	Player::_jump()
 {
 	if (this->getPosition().y < 0.f)
 		return;
+	this->_change_state(JUMP);
 	this->_velocity.y = -JUMP_VELOCITY;
 }
 
@@ -94,6 +100,18 @@ void	Player::_clamp_velocity()
 		this->_velocity.y = MAX_VERTICAL_SPEED;
 }
 
+void	Player::_change_state(int state)
+{
+	if (state == RUN && this->getPosition().y < 0.f)
+		return;
+	if (state != IDLE)
+		this->_is_idle = false;
+	if (this->_animation_state == state)
+		return;
+	this->_animation_state = state;
+	this->_frame_id = ANIMATION_FRAMES[this->_animation_state].first;
+}
+
 void	Player::_update_frame()
 {
 	int		frame = this->_frame_id;
@@ -116,7 +134,7 @@ void	Player::_progress_animation()
 {
 	this->_animation.restart();
 	this->_frame_id++;
-	if (this->_animation_state == IDLE && this->_frame_id > IDLE_FRAMES.second)
-		this->_frame_id = IDLE_FRAMES.first;
+	if (this->_frame_id > ANIMATION_FRAMES[this->_animation_state].second)
+		this->_frame_id = ANIMATION_FRAMES[this->_animation_state].first;
 	this->_update_frame();
 }
