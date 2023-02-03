@@ -10,6 +10,11 @@ Game::Game(const char* name, int w, int h) {
 	if (!texture_player.loadFromFile(PLAYER_TEXTURE))
 		exit(NULL);
 	player.init(&texture_player);
+	if (!bg_texture.loadFromFile("./assets/bg9.png"))
+		exit(NULL);
+	bg_sprite.setTexture(bg_texture);
+	bg_sprite.setScale(6.f, 6.f);
+	bg_sprite.setPosition(0.f, -50.f);
 }
 
 void	Game::handle_events(sf::Event& event) {
@@ -51,6 +56,7 @@ void	Game::update_values() {
 
 void	Game::render() {
 	window.clear();
+	window.draw(bg_sprite);
 	sf::RectangleShape shape;
 	for (Root& root : roots)
 	{

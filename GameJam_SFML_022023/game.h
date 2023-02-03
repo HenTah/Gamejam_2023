@@ -17,6 +17,8 @@ public:
 	sf::Texture			texture;
 	sf::Texture			texture_player;
 	Player				player;
+	sf::Texture			bg_texture;
+	sf::Sprite			bg_sprite;
 
 
 	Game(const char* name, int w, int h);
