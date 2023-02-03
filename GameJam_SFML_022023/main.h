@@ -8,7 +8,10 @@
 #include <cmath>
 #include <random>
 #include <iostream>
+#include "plant.h"
 #include "game.h"
+#include "player.h"
+#define ROOT_TEXTURE "./assets/root.png"
 
 constexpr auto GAME_NAME = "PLANT KILLER";
 constexpr int WIN_W = 800;
