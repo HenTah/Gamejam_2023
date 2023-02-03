@@ -6,7 +6,7 @@ Game::Game(const char* name, int w, int h) {
 	delta = clock.restart();
 	if (!texture.loadFromFile(ROOT_TEXTURE))
 		exit(NULL);
-	roots.emplace_back(2, sf::Vector2f(WIN_W / 3, 0), sf::Vector2f(50.f, 50.f), texture);
+	roots.emplace_back(sf::Vector2f(WIN_W / 3, 0.f), 100.f, &texture);
 	if (!texture_player.loadFromFile(PLAYER_TEXTURE))
 		exit(NULL);
 	player.init(&texture_player);
@@ -45,11 +45,15 @@ void	Game::update_values() {
 
 void	Game::render() {
 	window.clear();
-
+	sf::RectangleShape shape;
 	for (Root& root : roots)
 	{
 		root.draw(window);
+		sf::FloatRect bounds = root.getGlobalBounds();
+		shape.setSize(sf::Vector2f(bounds.width, bounds.height));
+		shape.setPosition(sf::Vector2f(bounds.left, bounds.top));
 	}
+	//window.draw(shape); //collider debug view
 	window.draw(player);
 	window.display();
 }
