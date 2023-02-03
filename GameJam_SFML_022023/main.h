@@ -9,8 +9,8 @@
 #include <random>
 #include <iostream>
 #include "plant.h"
-#include "game.h"
 #include "player.h"
+#include "game.h"
 #define ROOT_TEXTURE "./assets/root.png"
 
 constexpr auto GAME_NAME = "PLANT KILLER";
