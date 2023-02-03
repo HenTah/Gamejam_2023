@@ -29,16 +29,28 @@ void	Player::handle_movement(sf::Time delta)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		this->_velocity += sf::Vector2f(MOVEMENT_ACCELERATION * delta.asSeconds(), 0.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		this->_jump();
 	this->_velocity.x *= MOVEMENT_DRAG_COEFFICIENT;
 	if (fabsf(this->_velocity.x) < MIN_HORIZONTAL_MOVEMENT)
 		this->_velocity.x = 0.f;
+	this->_velocity.y += GRAVITY * delta.asSeconds();
+	this->_clamp_velocity();
 }
 
 void	Player::update_position(sf::Time delta)
 {
 	this->move(this->_velocity * delta.asSeconds());
+	printf("velocity (%f, %f)\n", this->_velocity.x, this->_velocity.y);
 	
 	this->_clamp_position();
+}
+
+void	Player::_jump()
+{
+	if (this->getPosition().y < 0.f)
+		return;
+	this->_velocity.y = -JUMP_VELOCITY;
 }
 
 void	Player::_clamp_position()
@@ -56,4 +68,16 @@ void	Player::_clamp_position()
 	if (pos.x != this->getPosition().x)
 		this->_velocity.x = 0.f;
 	this->setPosition(pos);
+}
+
+void	Player::_clamp_velocity()
+{
+	if (this->_velocity.x < -MAX_HORIZONTAL_SPEED)
+		this->_velocity.x = -MAX_HORIZONTAL_SPEED;
+	if (this->_velocity.x > MAX_HORIZONTAL_SPEED)
+		this->_velocity.x = MAX_HORIZONTAL_SPEED;
+	if (this->_velocity.y < -MAX_VERTICAL_SPEED)
+		this->_velocity.y = -MAX_VERTICAL_SPEED;
+	if (this->_velocity.y > MAX_VERTICAL_SPEED)
+		this->_velocity.y = MAX_VERTICAL_SPEED;
 }

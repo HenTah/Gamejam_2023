@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game(const char *name, int w, int h) {
+Game::Game(const char* name, int w, int h) {
 	window.create(sf::VideoMode(w, h), name);
 	window.setVerticalSyncEnabled(true);
 	delta = clock.restart();
@@ -13,13 +13,27 @@ Game::Game(const char *name, int w, int h) {
 }
 
 void	Game::handle_events(sf::Event& event) {
-	if (event.type == sf::Event::Closed)
+	switch (event.type)
+	{
+	case sf::Event::Closed:
 		window.close();
+		exit(EXIT_SUCCESS);
+		break;
+	case sf::Event::KeyPressed:
+		switch (event.key.code)
+		{
+		case sf::Keyboard::Escape:
+			window.close();
+			exit(EXIT_SUCCESS);
+			break;
+		}
+		break;
+	}
 }
 
 void	Game::update_values() {
 	delta = clock.restart();
-	
+
 	for (Plant& plant : plants)
 	{
 		plant.grow(10.f, delta.asSeconds());
