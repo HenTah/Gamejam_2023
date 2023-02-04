@@ -1,7 +1,5 @@
 #include "game.h"
 
-
-
 Explosion explooose(sf::Vector2f(200.f, 200.f), sf::Color::Green, 15);
 
 Game::Game(const char* name, int w, int h) {
@@ -18,6 +16,9 @@ Game::Game(const char* name, int w, int h) {
 		exit(NULL);
 	if (!texture_root_end.loadFromFile(ROOT_END_TEXTURE))
 		exit(NULL);
+	if (!enemy_texture.loadFromFile(ENEMY_TEXTURE))
+		exit(NULL);
+	enemies.emplace_back(sf::Vector2f(WIN_W / 2, WIN_H / 2), &enemy_texture);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(6.f, 6.f);
 	bg_sprite.setPosition(0.f, -50.f);
@@ -58,7 +59,6 @@ void	Game::update_growth()
 		std::uniform_real_distribution<float> grow_size(50.f, 200.f);
 		std::uniform_real_distribution<float> grow_speed(25.f, 100.f);
 
-
 		_growth_value = grow_timer(engine);
 		growth_timer.restart();
 		roots.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), grow_size(engine), grow_speed(engine), this);
@@ -83,6 +83,10 @@ void	Game::update_values()
 	}
 	update_growth();
 	explooose.Update(delta.asSeconds());
+	for (Enemy& enemy : enemies)
+	{
+		enemy.update_position(delta);
+	}
 	player.handle_movement(delta);
 	player.update_position(delta);
 
@@ -101,6 +105,10 @@ void	Game::render()
 		sf::FloatRect bounds = root.getGlobalBounds();
 		shape.setSize(sf::Vector2f(bounds.width, bounds.height));
 		shape.setPosition(sf::Vector2f(bounds.left, bounds.top));
+	}
+	for (Enemy& enemy : enemies)
+	{
+		window.draw(enemy);
 	}
 	//window.draw(shape); //collider debug view
 	explooose.Draw(window);

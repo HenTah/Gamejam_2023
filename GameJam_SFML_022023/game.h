@@ -11,6 +11,7 @@ class Game {
 public:
 	int					status;
 	std::vector<Root>	roots;
+	std::vector<Enemy>	enemies;
 	sf::Clock			clock;
 	sf::Time			delta;
 	sf::Clock			growth_timer;
@@ -22,6 +23,7 @@ public:
 	sf::Texture			bg_texture;
 	sf::Sprite			bg_sprite;
 	sf::Texture			texture_root_end;
+	sf::Texture			enemy_texture;
 
 	Game(const char* name, int w, int h);
 
