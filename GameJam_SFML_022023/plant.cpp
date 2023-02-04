@@ -37,18 +37,23 @@
 		_base.setSize(sf::Vector2f(size * 0.64, size));
 		_tex = texture;
 		_alive = 0.f;
+		_grounded = false;
 		_killed = false;
 		_segments.emplace_back(_base.getPosition(), size, _tex);
 		position.y += size;
 	}
 	void Root::update(float dt)
 	{
+		if (_grounded)
+			return;
 		_alive += dt;
 		if (!_segments.back().get_active() && _alive > 0.f)
 		{
 			_segments.emplace_back(sf::Vector2f(_base.getPosition().x, _base.getPosition().y + _base.getSize().y), _base.getSize().y, this->_tex);
 			_base.setPosition(sf::Vector2f(_base.getPosition().x, _base.getPosition().y + _base.getSize().y));
 		}
+		if (_segments.back().getPosition().y > WIN_H)
+			_grounded = true;
 		for (auto& segment : _segments)
 		{
 			segment.update(dt);
@@ -102,6 +107,7 @@
 				_base.setPosition(sf::Vector2f(_base.getPosition().x, _segments.back().getPosition().y - _base.getSize().y));
 				_segments.pop_back();
 				_alive = -2.5f;
+				_grounded = false;
 				break;
 			}
 		}
