@@ -27,6 +27,9 @@
     <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

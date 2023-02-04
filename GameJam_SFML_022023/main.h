@@ -26,7 +26,9 @@ enum e_sounds
 #include <cmath>
 #include <random>
 #include <iostream>
+#include <random>
 #include "plant.h"
 #include "player.h"
 #include "audio.h"
 #include "game.h"
+#include "Explosion.h"

@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="plant.h" />

@@ -102,7 +102,7 @@
 	{
 		for (auto& segment : _segments)
 		{
-			if (height < segment.getPosition().y)
+			if (height < segment.getPosition().y + segment.getSize().y)
 			{
 				_base.setPosition(sf::Vector2f(_base.getPosition().x, _segments.back().getPosition().y - _base.getSize().y));
 				_segments.pop_back();
