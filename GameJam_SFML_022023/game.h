@@ -29,6 +29,7 @@ public:
 	void	update_values(void);
 	void	render();
 	void	set_state(int state);
+	void	exit_game();
 
 private:
 	int					_state;

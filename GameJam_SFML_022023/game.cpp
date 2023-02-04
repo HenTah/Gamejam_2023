@@ -31,8 +31,7 @@ void	Game::handle_events(sf::Event& event)
 	switch (event.type)
 	{
 	case sf::Event::Closed:
-		window.close();
-		exit(EXIT_SUCCESS);
+		this->exit_game();
 		break;
 	case sf::Event::KeyPressed:
 		switch (event.key.code)
@@ -49,7 +48,6 @@ void	Game::handle_events(sf::Event& event)
 		player.attack();
 		break;
 	}
-	menu.handle_events(event, this);
 }
 
 void	Game::update_growth()
@@ -71,6 +69,13 @@ void	Game::update_values()
 {
 	delta = clock.restart();
 
+	if (_state == STATE_MENU)
+	{
+		menu.update_values(this);
+		menu.handle_actions(this);
+		return;
+	}
+
 	sf::FloatRect obj;
 	sf::FloatRect collider = player.get_attack_bounds();
 	for (Root& root : roots)
@@ -90,8 +95,6 @@ void	Game::update_values()
 
 	if (player.is_attacking())
 		audio.play_sound(SOUND_MISS);
-
-	menu.update_values(this);
 }
 
 void	Game::render()
@@ -130,4 +133,10 @@ void	Game::render()
 void	Game::set_state(int state)
 {
 	_state = state;
+}
+
+void	Game::exit_game()
+{
+	window.close();
+	exit(EXIT_SUCCESS);
 }

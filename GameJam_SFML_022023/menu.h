@@ -12,7 +12,7 @@ public:
 	void	init();
 	void	render(sf::RenderWindow &window);
 	void	update_values(Game *game);
-	void	handle_events(sf::Event& event, Game* game);
+	void	handle_actions(Game* game);
 private:
 	sf::Texture			_ui_texture;
 	sf::RectangleShape	_volume_bar_frame;

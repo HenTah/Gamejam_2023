@@ -52,13 +52,22 @@ void	Menu::render(sf::RenderWindow& window)
 	window.draw(_volume_bar);
 }
 
-void	Menu::handle_events(sf::Event& event, Game* game)
+void	Menu::handle_actions(Game* game)
 {
-	if (event.type != sf::Event::MouseButtonPressed)
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		return;
 	
-	sf::Vector2i	pos = sf::Mouse::getPosition(game->window);
+	sf::Vector2f	pos = sf::Vector2f(
+		(float)sf::Mouse::getPosition(game->window).x,
+		(float)sf::Mouse::getPosition(game->window).y);
 
-	if (_button_play.getGlobalBounds().contains(sf::Vector2f((float)pos.x, (float)pos.y)))
+	if (_button_play.getGlobalBounds().contains(pos))
 		game->set_state(STATE_GAME);
+
+	if (_button_exit.getGlobalBounds().contains(pos))
+		game->exit_game();
+
+	if (_volume_bar_frame.getGlobalBounds().contains(pos))
+		game->audio.set_volume((int)((pos.x - _volume_bar_frame.getGlobalBounds().left)
+				/ _volume_bar_frame.getGlobalBounds().width * 100.f));
 }

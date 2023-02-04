@@ -50,4 +50,7 @@ int	Audio::get_volume()
 void	Audio::set_volume(int volume)
 {
 	_volume = volume;
+	_music.setVolume(_volume);
+	_sound_hit.setVolume(_volume);
+	_sound_miss.setVolume(_volume);
 }
