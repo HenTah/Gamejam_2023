@@ -7,7 +7,7 @@ constexpr auto GAME_NAME = "PLANT KILLER";
 constexpr auto PLAYER_TEXTURE = "./assets/player.png";
 constexpr auto ROOT_TEXTURE = "./assets/root.png";
 constexpr auto BG_TEXTURE = "./assets/bg9.png";
-constexpr auto AUDIO_MUSIC = "./assets/music.wav";
+constexpr auto AUDIO_MUSIC = "./assets/music.ogg";
 constexpr auto AUDIO_HIT = "./assets/hit.wav";
 constexpr auto AUDIO_MISS = "./assets/miss.wav";
 
