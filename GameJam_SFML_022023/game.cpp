@@ -6,7 +6,7 @@ Game::Game(const char* name, int w, int h) {
 	window.create(sf::VideoMode(w, h), name);
 	window.setVerticalSyncEnabled(true);
 	delta = clock.restart();
-	_growth_value = 0.f;
+	_next_growth = 0.f;
 	_state = STATE_GAME;
 	if (!texture.loadFromFile(ROOT_TEXTURE))
 		exit(NULL);
@@ -19,7 +19,6 @@ Game::Game(const char* name, int w, int h) {
 		exit(NULL);
 	if (!enemy_texture.loadFromFile(ENEMY_TEXTURE))
 		exit(NULL);
-	enemies.emplace_back(sf::Vector2f(WIN_W / 2, WIN_H / 2), 2.5f, &enemy_texture);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(6.f, 6.f);
 	bg_sprite.setPosition(0.f, -50.f);
@@ -54,7 +53,7 @@ void	Game::handle_events(sf::Event& event)
 
 void	Game::update_growth()
 {
-	if (growth_timer.getElapsedTime().asSeconds() > _growth_value)
+	if (_growth_timer.getElapsedTime().asSeconds() > _next_growth)
 	{
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WIN_W);
@@ -62,9 +61,25 @@ void	Game::update_growth()
 		std::uniform_real_distribution<float> grow_size(50.f, 200.f);
 		std::uniform_real_distribution<float> grow_speed(25.f, 100.f);
 
-		_growth_value = grow_timer(engine);
-		growth_timer.restart();
+		_next_growth = grow_timer(engine);
+		_growth_timer.restart();
 		roots.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), grow_size(engine), grow_speed(engine), this);
+	}
+}
+
+void Game::spawner()
+{
+	if (_spawn_timer.getElapsedTime().asSeconds() > _next_spawn)
+	{
+		std::mt19937 engine(std::random_device{}());
+		std::uniform_real_distribution<float> play_area_x(50, WIN_W);
+		std::uniform_real_distribution<float> spawn_timer(1.f, 5.f);
+		std::uniform_real_distribution<float> spawn_scale(0.75f, 2.f);
+		std::uniform_real_distribution<float> spawn_speed(100.f, 200.f);
+
+		_next_spawn = spawn_timer(engine);
+		_spawn_timer.restart();
+		enemies.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), spawn_scale(engine), spawn_speed(engine), &enemy_texture);
 	}
 }
 
@@ -92,6 +107,7 @@ void	Game::update_values()
 		}
 	}
 	update_growth();
+	spawner();
 	explooose.Update(delta.asSeconds());
 	for (Enemy& enemy : enemies)
 	{

@@ -59,7 +59,7 @@
 			_base.setPosition(sf::Vector2f(_base.getPosition().x, _base.getPosition().y + _base.getSize().y));
 		}
 		_root_base.setPosition(_segments.back().getPosition() + _segments.back().getSize() - sf::Vector2f(_root_base.getSize().x * 0.64f , _root_base.getSize().y / 4));
-		if (_segments.back().getPosition().y > WIN_H)
+		if (_segments.back().getPosition().y > WIN_H  - 50.f)
 			_grounded = true;
 		for (auto& segment : _segments)
 		{

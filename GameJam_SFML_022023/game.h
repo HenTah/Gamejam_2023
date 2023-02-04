@@ -13,7 +13,6 @@ public:
 	std::vector<Enemy>	enemies;
 	sf::Clock			clock;
 	sf::Time			delta;
-	sf::Clock			growth_timer;
 	sf::RenderWindow	window;
 	sf::Texture			texture;
 	sf::Texture			texture_player;
@@ -29,13 +28,17 @@ public:
 
 	void	handle_events(sf::Event &event);
 	void	update_growth(void);
+	void	spawner(void);
 	void	update_values(void);
 	void	render();
 	void	set_state(int state);
 	void	exit_game();
 
 private:
+	sf::Clock			_growth_timer;
+	sf::Clock			_spawn_timer;
 	int					_state;
-	float				_growth_value;
+	float				_next_growth;
+	float				_next_spawn;
 
 };
