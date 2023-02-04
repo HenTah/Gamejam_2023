@@ -45,22 +45,18 @@ void	Game::handle_events(sf::Event& event)
 	}
 }
 
-float	Game::new_growth()
-{
-	std::mt19937 engine(std::random_device{}());
-	std::uniform_real_distribution<float> play_area_x(0, WIN_W);
-	std::uniform_real_distribution<float> grow_timer(1.f,5.f);
-
-	_growth_value = grow_timer(engine);
-	growth_timer.restart();
-	return (play_area_x(engine));
-}
-
 void	Game::update_growth()
 {
 	if (growth_timer.getElapsedTime().asSeconds() > _growth_value)
 	{
-		roots.emplace_back(sf::Vector2f(new_growth(), 0.f), 100.f, &texture);
+		std::mt19937 engine(std::random_device{}());
+		std::uniform_real_distribution<float> play_area_x(50, WIN_W);
+		std::uniform_real_distribution<float> grow_timer(1.f, 5.f);
+		std::uniform_real_distribution<float> grow_size(50.f, 200.f);
+
+		_growth_value = grow_timer(engine);
+		growth_timer.restart();
+		roots.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), grow_size(engine), &texture);
 	}
 }
 
@@ -76,9 +72,6 @@ void	Game::update_values()
 		obj = root.getGlobalBounds();
 		if (player.is_attacking() && collider.intersects(obj))
 			root.cut(collider.top);
-	}
-
-		}
 	}
 	update_growth();
 	explooose.Update(delta.asSeconds());

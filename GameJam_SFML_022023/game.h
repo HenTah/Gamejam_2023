@@ -24,7 +24,6 @@ public:
 	Game(const char* name, int w, int h);
 
 	void	handle_events(sf::Event &event);
-	float	new_growth();
 	void	update_growth(void);
 	void	update_values(void);
 	void	render();
