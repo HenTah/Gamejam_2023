@@ -18,7 +18,7 @@ constexpr float	MAX_VERTICAL_SPEED			= 50000.f;
 constexpr float	GRAVITY						= 6000.f;
 constexpr float	ANIMATION_UPDATE_FREQUENCY	= 0.1f;
 
-constexpr float	ATTACK_BOUNDS_W = 240.f;
+constexpr float	ATTACK_BOUNDS_W = 160.f;
 constexpr float	ATTACK_BOUNDS_H = 200.f;
 
 enum e_animation_states
@@ -34,7 +34,7 @@ constexpr std::pair<int, int> ANIMATION_FRAMES[5] = {
 {0, 6},
 {7, 17},
 {30, 36},
-{32, 34},
+{32, 33},
 {37, 44}
 };
 

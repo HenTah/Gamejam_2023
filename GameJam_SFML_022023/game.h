@@ -17,6 +17,7 @@ public:
 	sf::Texture			texture;
 	sf::Texture			texture_player;
 	Player				player;
+	Audio				audio;
 	sf::Texture			bg_texture;
 	sf::Sprite			bg_sprite;
 

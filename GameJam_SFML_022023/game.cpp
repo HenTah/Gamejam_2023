@@ -11,11 +11,13 @@ Game::Game(const char* name, int w, int h)
 	if (!texture_player.loadFromFile(PLAYER_TEXTURE))
 		exit(NULL);
 	player.init(&texture_player);
-	if (!bg_texture.loadFromFile("./assets/bg9.png"))
+	if (!bg_texture.loadFromFile(BG_TEXTURE))
 		exit(NULL);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(6.f, 6.f);
 	bg_sprite.setPosition(0.f, -50.f);
+	audio.init();
+	audio.play_music();
 }
 
 void	Game::handle_events(sf::Event& event)
@@ -52,11 +54,17 @@ void	Game::update_values()
 		root.update(delta.asSeconds());
 		obj = root.getGlobalBounds();
 		if (player.is_attacking() && collider.intersects(obj))
+		{
 			root.cut(collider.top);
+			audio.play_sound(SOUND_HIT);
+		}
 	}
 
 	player.handle_movement(delta);
 	player.update_position(delta);
+
+	if (player.is_attacking())
+		audio.play_sound(SOUND_MISS);
 }
 
 void	Game::render()
