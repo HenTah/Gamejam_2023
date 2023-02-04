@@ -15,6 +15,8 @@ constexpr int WIN_H = 720;
 #include <cmath>
 #include <random>
 #include <iostream>
+#include <random>
 #include "plant.h"
 #include "player.h"
 #include "game.h"
+#include "Explosion.h"

@@ -1,10 +1,14 @@
 #include "game.h"
 
-Game::Game(const char* name, int w, int h)
-{
+
+
+Explosion explooose(sf::Vector2f(200.f, 200.f), sf::Color::Green, 15);
+
+Game::Game(const char* name, int w, int h) {
 	window.create(sf::VideoMode(w, h), name);
 	window.setVerticalSyncEnabled(true);
 	delta = clock.restart();
+	_growth_value = 0.f;
 	if (!texture.loadFromFile(ROOT_TEXTURE))
 		exit(NULL);
 	roots.emplace_back(sf::Vector2f(WIN_W / 3, 0.f), 100.f, &texture);
@@ -41,6 +45,25 @@ void	Game::handle_events(sf::Event& event)
 	}
 }
 
+float	Game::new_growth()
+{
+	std::mt19937 engine(std::random_device{}());
+	std::uniform_real_distribution<float> play_area_x(0, WIN_W);
+	std::uniform_real_distribution<float> grow_timer(1.f,5.f);
+
+	_growth_value = grow_timer(engine);
+	growth_timer.restart();
+	return (play_area_x(engine));
+}
+
+void	Game::update_growth()
+{
+	if (growth_timer.getElapsedTime().asSeconds() > _growth_value)
+	{
+		roots.emplace_back(sf::Vector2f(new_growth(), 0.f), 100.f, &texture);
+	}
+}
+
 void	Game::update_values()
 {
 	delta = clock.restart();
@@ -55,6 +78,10 @@ void	Game::update_values()
 			root.cut(collider.top);
 	}
 
+		}
+	}
+	update_growth();
+	explooose.Update(delta.asSeconds());
 	player.handle_movement(delta);
 	player.update_position(delta);
 }
@@ -72,6 +99,7 @@ void	Game::render()
 		shape.setPosition(sf::Vector2f(bounds.left, bounds.top));
 	}
 	//window.draw(shape); //collider debug view
+	explooose.Draw(window);
 
 	// Debug attack bounds
 	if (player.is_attacking())
@@ -87,3 +115,5 @@ void	Game::render()
 	window.draw(player);
 	window.display();
 }
+
+
