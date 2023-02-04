@@ -6,10 +6,12 @@ constexpr auto GAME_NAME = "PLANT KILLER";
 
 constexpr auto PLAYER_TEXTURE = "./assets/player.png";
 constexpr auto ROOT_TEXTURE = "./assets/root.png";
+constexpr auto ROOT_END_TEXTURE = "./assets/plat4.png";
 constexpr auto BG_TEXTURE = "./assets/bg9.png";
 constexpr auto AUDIO_MUSIC = "./assets/music.ogg";
 constexpr auto AUDIO_HIT = "./assets/hit.wav";
 constexpr auto AUDIO_MISS = "./assets/miss.wav";
+constexpr auto ENEMY_TEXTURE = "./assets/Slime_sheet.png";
 
 constexpr int WIN_W = 1280;
 constexpr int WIN_H = 720;
@@ -29,6 +31,7 @@ enum e_sounds
 #include <random>
 #include "plant.h"
 #include "player.h"
+#include "Enemy.h"
 #include "audio.h"
 #include "menu.h"
 #include "game.h"

@@ -10,6 +10,7 @@ enum e_game_status
 class Game {
 public:
 	std::vector<Root>	roots;
+	std::vector<Enemy>	enemies;
 	sf::Clock			clock;
 	sf::Time			delta;
 	sf::Clock			growth_timer;
@@ -21,6 +22,8 @@ public:
 	Menu				menu;
 	sf::Texture			bg_texture;
 	sf::Sprite			bg_sprite;
+	sf::Texture			texture_root_end;
+	sf::Texture			enemy_texture;
 
 	Game(const char* name, int w, int h);
 

@@ -1,12 +1,12 @@
 #include "main.h"
 #include <iostream>
 
-	RootSegment::RootSegment(sf::Vector2f position, double size, const sf::Texture *texture)
+	RootSegment::RootSegment(sf::Vector2f position, double size, double speed, const sf::Texture *texture)
 	{
 		this->_active = true;
 		this->_target_y_size = size;
 		this->_texture_y_scale = 0.f;
-		this->_speed = sf::Vector2f(25.f, 25.f);
+		this->_speed = sf::Vector2f(speed, speed);
 		this->setPosition(position.x - size * 0.64 / 2, position.y);
 		this->setTexture(texture);
 		this->setSize(sf::Vector2f(size * 0.64, 0.f));
@@ -31,27 +31,34 @@
 		//this->setPosition(this->getPosition() + sf::Vector2f(0, this->speed.y * dt));
 	}
 
-	Root::Root(sf::Vector2f position, double size, const sf::Texture *texture)
+	Root::Root(sf::Vector2f position, double size, double speed, const Game *game)
 	{
+		_speed = speed;
 		_base.setPosition(position.x - size * 0.64 / 2, position.y);
 		_base.setSize(sf::Vector2f(size * 0.64, size));
-		_tex = texture;
+		_tex = &(game->texture);
+		_root_base.setOrigin(size / 2, 0.f);
+		_root_base.setTexture(&(game->texture_root_end));
+		_root_base.setSize(sf::Vector2f(size * 0.8f,size));
+		_root_base.setPosition(position - sf::Vector2f(_root_base.getSize().x * 0.64f, _root_base.getSize().y / 4));
+
 		_alive = 0.f;
 		_grounded = false;
 		_killed = false;
-		_segments.emplace_back(_base.getPosition(), size, _tex);
+		_segments.emplace_back(_base.getPosition(), size, _speed, _tex);
 		position.y += size;
 	}
 	void Root::update(float dt)
 	{
-		if (_grounded)
+		if (_grounded || _segments.empty())
 			return;
 		_alive += dt;
-		if (!_segments.back().get_active() && _alive > 0.f)
+		if (_alive > 0.f && !_segments.back().get_active())
 		{
-			_segments.emplace_back(sf::Vector2f(_base.getPosition().x, _base.getPosition().y + _base.getSize().y), _base.getSize().y, this->_tex);
+			_segments.emplace_back(sf::Vector2f(_base.getPosition().x, _base.getPosition().y + _base.getSize().y), _base.getSize().y, _speed, this->_tex);
 			_base.setPosition(sf::Vector2f(_base.getPosition().x, _base.getPosition().y + _base.getSize().y));
 		}
+		_root_base.setPosition(_segments.back().getPosition() + _segments.back().getSize() - sf::Vector2f(_root_base.getSize().x * 0.64f , _root_base.getSize().y / 4));
 		if (_segments.back().getPosition().y > WIN_H)
 			_grounded = true;
 		for (auto& segment : _segments)
@@ -65,6 +72,7 @@
 		{
 			window.draw(segment);
 		}
+		window.draw(_root_base);
 	}
 	void Root::translate(sf::Vector2f offset)
 	{
