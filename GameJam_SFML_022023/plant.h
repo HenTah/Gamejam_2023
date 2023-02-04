@@ -7,14 +7,14 @@ public:
 	RootSegment(sf::Vector2f position, double size, const sf::Texture *texture);
 	void			update(float dt);
 
-	bool			 get_active() const { return active; }
-	void			set_active(bool value) { active = value; }
+	bool			 get_active() const { return _active; }
+	void			set_active(bool value) { _active = value; }
 private:
-	bool			active;
-	double			target_y_size;
-	double			texture_y_scale;
-	sf::Vector2f	position;
-	sf::Vector2f	speed;
+	bool			_active;
+	double			_target_y_size;
+	double			_texture_y_scale;
+	sf::Vector2f	_position;
+	sf::Vector2f	_speed;
 };
 
 class Root
@@ -27,10 +27,11 @@ public:
 	sf::FloatRect	getGlobalBounds();
 	void			cut(double height);
 private:
-	bool			killed;
-	sf::RectangleShape base;
-	std::vector<RootSegment> segments;
-	double			alive;
-	const sf::Texture		*tex;
+	bool			_killed;
+	bool			_grounded;
+	sf::RectangleShape _base;
+	std::vector<RootSegment> _segments;
+	double			_alive;
+	const sf::Texture		*_tex;
 
 };
