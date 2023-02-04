@@ -19,7 +19,7 @@ Game::Game(const char* name, int w, int h) {
 		exit(NULL);
 	if (!enemy_texture.loadFromFile(ENEMY_TEXTURE))
 		exit(NULL);
-	enemies.emplace_back(sf::Vector2f(WIN_W / 2, WIN_H / 2), &enemy_texture);
+	enemies.emplace_back(sf::Vector2f(WIN_W / 2, WIN_H / 2), 2.5f, &enemy_texture);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(6.f, 6.f);
 	bg_sprite.setPosition(0.f, -50.f);
@@ -95,7 +95,7 @@ void	Game::update_values()
 	explooose.Update(delta.asSeconds());
 	for (Enemy& enemy : enemies)
 	{
-		enemy.update_position(delta);
+		enemy.update_position(delta, &roots);
 	}
 	player.handle_movement(delta);
 	player.update_position(delta);

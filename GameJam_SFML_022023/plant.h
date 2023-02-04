@@ -27,6 +27,7 @@ public:
 	void			translate(sf::Vector2f offset);
 	sf::FloatRect	getGlobalBounds();
 	void			cut(double height);
+	bool			getState();
 private:
 	double			_speed;
 	bool			_killed;

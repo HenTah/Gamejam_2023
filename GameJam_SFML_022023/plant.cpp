@@ -120,3 +120,8 @@
 			}
 		}
 	}
+
+	bool Root::getState()
+	{
+		return _grounded;
+	}
