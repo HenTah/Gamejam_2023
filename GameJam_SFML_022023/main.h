@@ -30,5 +30,6 @@ enum e_sounds
 #include "plant.h"
 #include "player.h"
 #include "audio.h"
+#include "menu.h"
 #include "game.h"
 #include "Explosion.h"

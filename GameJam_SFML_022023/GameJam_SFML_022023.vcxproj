@@ -141,6 +141,7 @@
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="plant.cpp" />
     <ClCompile Include="player.cpp" />
   </ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="plant.h" />
     <ClInclude Include="player.h" />
   </ItemGroup>

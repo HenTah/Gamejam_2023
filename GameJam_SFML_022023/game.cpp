@@ -9,6 +9,7 @@ Game::Game(const char* name, int w, int h) {
 	window.setVerticalSyncEnabled(true);
 	delta = clock.restart();
 	_growth_value = 0.f;
+	_state = STATE_GAME;
 	if (!texture.loadFromFile(ROOT_TEXTURE))
 		exit(NULL);
 	roots.emplace_back(sf::Vector2f(WIN_W / 3, 0.f), 100.f, &texture);
@@ -21,6 +22,7 @@ Game::Game(const char* name, int w, int h) {
 	bg_sprite.setScale(6.f, 6.f);
 	bg_sprite.setPosition(0.f, -50.f);
 	audio.init();
+	menu.init();
 	audio.play_music();
 }
 
@@ -36,8 +38,10 @@ void	Game::handle_events(sf::Event& event)
 		switch (event.key.code)
 		{
 		case sf::Keyboard::Escape:
-			window.close();
-			exit(EXIT_SUCCESS);
+			if (_state != STATE_MENU)
+				_state = STATE_MENU;
+			else
+				_state = STATE_GAME;
 			break;
 		}
 		break;
@@ -45,6 +49,7 @@ void	Game::handle_events(sf::Event& event)
 		player.attack();
 		break;
 	}
+	menu.handle_events(event, this);
 }
 
 void	Game::update_growth()
@@ -85,6 +90,8 @@ void	Game::update_values()
 
 	if (player.is_attacking())
 		audio.play_sound(SOUND_MISS);
+
+	menu.update_values(this);
 }
 
 void	Game::render()
@@ -114,7 +121,13 @@ void	Game::render()
 	}
 
 	window.draw(player);
+
+	if (_state == STATE_MENU)
+		menu.render(window);
 	window.display();
 }
 
-
+void	Game::set_state(int state)
+{
+	_state = state;
+}

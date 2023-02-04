@@ -10,6 +10,8 @@ public:
 	void	init();
 	void	play_music();
 	void	play_sound(int sound);
+	int		get_volume();
+	void	set_volume(int volume);
 
 private:
 	int					_volume;

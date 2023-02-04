@@ -41,3 +41,13 @@ void	Audio::play_sound(int sound)
 		break;
 	}
 }
+
+int	Audio::get_volume()
+{
+	return (_volume);
+}
+
+void	Audio::set_volume(int volume)
+{
+	_volume = volume;
+}

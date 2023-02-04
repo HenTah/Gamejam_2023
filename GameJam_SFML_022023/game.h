@@ -3,13 +3,12 @@
 
 enum e_game_status
 {
-	STATUS_GAME,
-	STATUS_GAMEOVER
+	STATE_GAME,
+	STATE_MENU
 };
 
 class Game {
 public:
-	int					status;
 	std::vector<Root>	roots;
 	sf::Clock			clock;
 	sf::Time			delta;
@@ -19,6 +18,7 @@ public:
 	sf::Texture			texture_player;
 	Player				player;
 	Audio				audio;
+	Menu				menu;
 	sf::Texture			bg_texture;
 	sf::Sprite			bg_sprite;
 
@@ -28,8 +28,10 @@ public:
 	void	update_growth(void);
 	void	update_values(void);
 	void	render();
+	void	set_state(int state);
 
 private:
+	int					_state;
 	float				_growth_value;
 
 };
