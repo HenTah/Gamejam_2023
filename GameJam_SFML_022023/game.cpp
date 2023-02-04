@@ -1,6 +1,7 @@
 #include "game.h"
 
-Game::Game(const char* name, int w, int h) {
+Game::Game(const char* name, int w, int h)
+{
 	window.create(sf::VideoMode(w, h), name);
 	window.setVerticalSyncEnabled(true);
 	delta = clock.restart();
@@ -17,7 +18,8 @@ Game::Game(const char* name, int w, int h) {
 	bg_sprite.setPosition(0.f, -50.f);
 }
 
-void	Game::handle_events(sf::Event& event) {
+void	Game::handle_events(sf::Event& event)
+{
 	switch (event.type)
 	{
 	case sf::Event::Closed:
@@ -33,28 +35,32 @@ void	Game::handle_events(sf::Event& event) {
 			break;
 		}
 		break;
+	case sf::Event::MouseButtonPressed:
+		player.attack();
+		break;
 	}
 }
 
-void	Game::update_values() {
+void	Game::update_values()
+{
 	delta = clock.restart();
+
 	sf::FloatRect obj;
-	sf::FloatRect collider = player.getGlobalBounds();
+	sf::FloatRect collider = player.get_attack_bounds();
 	for (Root& root : roots)
 	{
 		root.update(delta.asSeconds());
 		obj = root.getGlobalBounds();
-		if (collider.intersects(obj))
-		{
+		if (player.is_attacking() && collider.intersects(obj))
 			root.cut(collider.top);
-		}
 	}
 
 	player.handle_movement(delta);
 	player.update_position(delta);
 }
 
-void	Game::render() {
+void	Game::render()
+{
 	window.clear();
 	window.draw(bg_sprite);
 	sf::RectangleShape shape;
@@ -66,6 +72,18 @@ void	Game::render() {
 		shape.setPosition(sf::Vector2f(bounds.left, bounds.top));
 	}
 	//window.draw(shape); //collider debug view
+
+	// Debug attack bounds
+	if (player.is_attacking())
+	{
+		sf::RectangleShape shape;
+		sf::FloatRect collider = player.get_attack_bounds();
+		shape.setSize(sf::Vector2f(collider.width, collider.height));
+		shape.setPosition(sf::Vector2f(collider.left, collider.top));
+		shape.setFillColor(sf::Color(255, 0, 0, 127));
+		window.draw(shape);
+	}
+
 	window.draw(player);
 	window.display();
 }

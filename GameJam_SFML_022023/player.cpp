@@ -28,6 +28,7 @@ void	Player::take_damage(int damage)
 void	Player::handle_movement(sf::Time delta)
 {
 	this->_is_idle = true;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
@@ -35,6 +36,7 @@ void	Player::handle_movement(sf::Time delta)
 		this->_velocity += sf::Vector2f(-MOVEMENT_ACCELERATION * delta.asSeconds(), 0.f);
 		this->_change_state(RUN);
 	}
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
@@ -42,10 +44,16 @@ void	Player::handle_movement(sf::Time delta)
 		this->_velocity += sf::Vector2f(MOVEMENT_ACCELERATION * delta.asSeconds(), 0.f);
 		this->_change_state(RUN);
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+		this->attack();
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		this->_jump();
 
-	if (this->_is_idle && this->getPosition().y >= 0.f)
+	if (this->_is_idle
+		&& this->getPosition().y >= 0.f
+		&& this->_animation_state != ATTACK)
 		this->_change_state(IDLE);
 
 	this->_velocity.x *= MOVEMENT_DRAG_COEFFICIENT;
@@ -53,6 +61,7 @@ void	Player::handle_movement(sf::Time delta)
 		this->_velocity.x = 0.f;
 	this->_velocity.y += GRAVITY * delta.asSeconds();
 	this->_clamp_velocity();
+
 	if (this->_animation.getElapsedTime().asSeconds() > ANIMATION_UPDATE_FREQUENCY)
 		this->_progress_animation();
 }
@@ -61,6 +70,30 @@ void	Player::update_position(sf::Time delta)
 {
 	this->move(this->_velocity * delta.asSeconds());
 	this->_clamp_position();
+}
+
+void	Player::attack()
+{
+	this->_change_state(ATTACK);
+}
+
+sf::FloatRect	Player::get_attack_bounds()
+{
+	sf::FloatRect	bounds = this->getGlobalBounds();
+
+	bounds.width = ATTACK_BOUNDS_W;
+	bounds.height = ATTACK_BOUNDS_H;
+	bounds.top += 10;
+	if (this->_facing_right)
+		bounds.left += PLAYER_W - ATTACK_BOUNDS_W;
+	return (bounds);
+}
+
+bool	Player::is_attacking()
+{
+	return (this->_animation_state == ATTACK
+		&& this->_frame_id >= ANIMATION_FRAMES[HIT].first
+		&& this->_frame_id <= ANIMATION_FRAMES[HIT].second);
 }
 
 void	Player::_jump()
@@ -106,7 +139,8 @@ void	Player::_change_state(int state)
 		return;
 	if (state != IDLE)
 		this->_is_idle = false;
-	if (this->_animation_state == state)
+	if (this->_animation_state == state
+		|| this->_animation_state == ATTACK)
 		return;
 	this->_animation_state = state;
 	this->_frame_id = ANIMATION_FRAMES[this->_animation_state].first;
@@ -135,6 +169,14 @@ void	Player::_progress_animation()
 	this->_animation.restart();
 	this->_frame_id++;
 	if (this->_frame_id > ANIMATION_FRAMES[this->_animation_state].second)
-		this->_frame_id = ANIMATION_FRAMES[this->_animation_state].first;
+	{
+		if (this->_animation_state == ATTACK)
+		{
+			this->_animation_state = IDLE;
+			this->_change_state(IDLE);
+		}
+		else
+			this->_frame_id = ANIMATION_FRAMES[this->_animation_state].first;
+	}
 	this->_update_frame();
 }

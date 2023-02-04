@@ -18,18 +18,23 @@ constexpr float	MAX_VERTICAL_SPEED			= 50000.f;
 constexpr float	GRAVITY						= 6000.f;
 constexpr float	ANIMATION_UPDATE_FREQUENCY	= 0.1f;
 
+constexpr float	ATTACK_BOUNDS_W = 240.f;
+constexpr float	ATTACK_BOUNDS_H = 200.f;
+
 enum e_animation_states
 {
 	IDLE,
 	RUN,
 	ATTACK,
+	HIT,
 	JUMP
 };
 
-constexpr std::pair<int, int> ANIMATION_FRAMES[4] = {
+constexpr std::pair<int, int> ANIMATION_FRAMES[5] = {
 {0, 6},
 {7, 17},
 {30, 36},
+{32, 34},
 {37, 44}
 };
 
@@ -38,10 +43,13 @@ class Player : public sf::RectangleShape
 {
 public:
 	Player();
-	void	init(sf::Texture* texture);
-	void	take_damage(int damage);
-	void	handle_movement(sf::Time delta);
-	void	update_position(sf::Time delta);
+	void			init(sf::Texture* texture);
+	void			take_damage(int damage);
+	void			handle_movement(sf::Time delta);
+	void			update_position(sf::Time delta);
+	void			attack();
+	sf::FloatRect	get_attack_bounds();
+	bool			is_attacking();
 private:
 	int				_health;
 	sf::Vector2f	_velocity;
