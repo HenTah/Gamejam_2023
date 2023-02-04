@@ -11,11 +11,12 @@ Game::Game(const char* name, int w, int h) {
 	_growth_value = 0.f;
 	if (!texture.loadFromFile(ROOT_TEXTURE))
 		exit(NULL);
-	roots.emplace_back(sf::Vector2f(WIN_W / 3, 0.f), 100.f, &texture);
 	if (!texture_player.loadFromFile(PLAYER_TEXTURE))
 		exit(NULL);
 	player.init(&texture_player);
 	if (!bg_texture.loadFromFile(BG_TEXTURE))
+		exit(NULL);
+	if (!texture_root_end.loadFromFile(ROOT_END_TEXTURE))
 		exit(NULL);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(6.f, 6.f);
@@ -55,10 +56,12 @@ void	Game::update_growth()
 		std::uniform_real_distribution<float> play_area_x(50, WIN_W);
 		std::uniform_real_distribution<float> grow_timer(1.f, 5.f);
 		std::uniform_real_distribution<float> grow_size(50.f, 200.f);
+		std::uniform_real_distribution<float> grow_speed(25.f, 100.f);
+
 
 		_growth_value = grow_timer(engine);
 		growth_timer.restart();
-		roots.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), grow_size(engine), &texture);
+		roots.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), grow_size(engine), grow_speed(engine), this);
 	}
 }
 

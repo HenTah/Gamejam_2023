@@ -21,6 +21,7 @@ public:
 	Audio				audio;
 	sf::Texture			bg_texture;
 	sf::Sprite			bg_sprite;
+	sf::Texture			texture_root_end;
 
 	Game(const char* name, int w, int h);
 
