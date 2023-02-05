@@ -1,7 +1,7 @@
 #include "main.h"
 
 //ChatGPT
-Explosion::Explosion(sf::Vector2f position, sf::Color color, int particle_count, sf::Texture &texture) {
+Explosion::Explosion(sf::Vector2f position, sf::Color color, int particle_count, sf::Texture& texture) {
 	position_ = position;
 	color_ = color;
 	_alive.restart();
@@ -12,7 +12,7 @@ Explosion::Explosion(sf::Vector2f position, sf::Color color, int particle_count,
 	for (int i = 0; i < particle_count; ++i) {
 		sf::Sprite particle(texture);
 		particle.setColor(color_);
-		particle.setScale(sf::Vector2f(5.f,5.f));
+		particle.setScale(sf::Vector2f(5.f, 5.f));
 		particle.setPosition(position_);
 
 		float angle = angle_distribution(engine);

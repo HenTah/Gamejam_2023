@@ -32,12 +32,13 @@ public:
 	bool			getState();
 	void			cut(int i);
 private:
+	std::vector<Enemy> *_enemies;
 	float			_speed;
 	bool			_killed;
 	bool			_grounded;
 	sf::RectangleShape _base;
 	std::vector<RootSegment> _segments;
 	float			_alive;
-	const sf::Texture *_tex;
+	const sf::Texture* _tex;
 	sf::RectangleShape _root_base;
 };
