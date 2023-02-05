@@ -201,20 +201,9 @@ void	Game::render()
 	{
 		window.draw(enemy);
 	}
-	//window.draw(shape); //collider debug view
 	for (Explosion& particle : particles)
 	{
 		particle.Draw(window);
-	}
-	// Debug attack bounds
-	if (player.is_attacking())
-	{
-		sf::RectangleShape shape;
-		sf::FloatRect collider = player.get_attack_bounds();
-		shape.setSize(sf::Vector2f(collider.width, collider.height));
-		shape.setPosition(sf::Vector2f(collider.left, collider.top));
-		shape.setFillColor(sf::Color(255, 0, 0, 127));
-		window.draw(shape);
 	}
 
 	window.draw(player);
