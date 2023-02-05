@@ -178,14 +178,13 @@ void	Game::render()
 
 void	Game::handle_view()
 {
-	float	offset = player.getPosition().x - view.getCenter().x;
-	
-	if (offset + PLAYER_CLAMP_PADDING < -(WIN_W / 2.f))
-		view.move(sf::Vector2f(offset + PLAYER_CLAMP_PADDING + WIN_W / 2.f, 0.f));
+	float	player_center = player.getPosition().x + PLAYER_W / 2.f;
 
-	if (offset + PLAYER_CLAMP_PADDING > WIN_W / 2.f)
-		view.move(sf::Vector2f(offset + PLAYER_CLAMP_PADDING - WIN_W / 2.f, 0.f));
+	if (player_center < WIN_W / 2.f || player_center > (float)WORLD_W - WIN_W / 2.f)
+		return;
+	float	offset = player_center - view.getCenter().x;
 
+	view.move(sf::Vector2f(fabsf(offset) * offset / (WIN_W / 2.f), 0.f));
 	window.setView(view);
 }
 
