@@ -2,6 +2,7 @@
 
 Audio::Audio()
 {
+	this->_volume = DEFAULT_VOLUME;
 }
 
 void	Audio::init()
@@ -12,7 +13,6 @@ void	Audio::init()
 		exit(NULL);
 	if (!_buffer_miss.loadFromFile(AUDIO_MISS))
 		exit(NULL);
-	_volume = DEFAULT_VOLUME;
 	_music.setVolume(_volume);
 	_sound_hit.setVolume(_volume);
 	_sound_miss.setVolume(_volume);
@@ -42,12 +42,12 @@ void	Audio::play_sound(int sound)
 	}
 }
 
-int	Audio::get_volume()
+float	Audio::get_volume()
 {
 	return (_volume);
 }
 
-void	Audio::set_volume(int volume)
+void	Audio::set_volume(float volume)
 {
 	_volume = volume;
 	_music.setVolume(_volume);

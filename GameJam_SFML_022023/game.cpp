@@ -236,7 +236,7 @@ void	Game::handle_view()
 	view.move(sf::Vector2f(fabsf(offset) * offset / (WIN_W / 2.f) * 0.5f, 0.f));
 	window.setView(view);
 
-	float	bg_offset = -(window.getView().getCenter().x - WIN_W / 2.f);
+	float	bg_offset = -(window.getView().getCenter().x - WIN_W / 2.f) + 20.f;
 	bg_sprite.setOrigin(sf::Vector2f(bg_offset / BG_RELATIVE_SCALE, 0.f));
 }
 
@@ -304,7 +304,7 @@ void	Game::_init_ui()
 void	Game::_update_ui()
 {
 	_overwhelming_bar.setSize(sf::Vector2f(_grounded_enemies * 395 / OVERWHELM_ENEMY_COUNT, 37.f));
-	_overwhelming_bar.setTextureRect(sf::IntRect(569, 34, _grounded_enemies * 395 / OVERWHELM_ENEMY_COUNT, 37));
+	_overwhelming_bar.setTextureRect(sf::IntRect(569, 34, (int)(_grounded_enemies * 395 / OVERWHELM_ENEMY_COUNT), 37));
 	_text_score.setString(std::to_string((int)pow(1.06f, 1.f + score.asSeconds()) + (int)score.asSeconds()));
 }
 

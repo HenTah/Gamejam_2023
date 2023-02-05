@@ -1,6 +1,6 @@
 #include "main.h"
 
-Enemy::Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture)
+Enemy::Enemy(sf::Vector2f pos, float scale, float speed, sf::Texture* texture)
 {
 	_health = 100.f;
 	_walk = true;
@@ -18,7 +18,7 @@ Enemy::Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture)
 
 void	Enemy::hit()
 {
-	if (_health == 100.f);
+	if (_health == 100.f)
 		_health -= 1.f;
 }
 
@@ -80,7 +80,7 @@ void	Enemy::update_position(sf::Time delta, std::vector<Root> *roots)
 		if (128.f * delta.asSeconds() > color.a)
 			color.a = 0;
 		else
-			color.a -= 128.f * delta.asSeconds();
+			color.a -= (sf::Uint8)(128.f * delta.asSeconds());
 		this->setScale(sf::Vector2f(this->getScale().x + 1.2f * delta.asSeconds(), this->getScale().y - 0.8f * delta.asSeconds()));
 		this->setFillColor(color);
 		_health -= 10 * delta.asSeconds();
@@ -100,7 +100,7 @@ void	Enemy::_update_frame()
 
 	this->setTextureRect(sf::IntRect(
 		x * 64,
-		y * 43.5,
+		(int)(y * 43.5),
 		64,
 		44));
 }

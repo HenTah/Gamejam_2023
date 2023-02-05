@@ -29,7 +29,7 @@ double Explosion::get_alive()
 	return _alive.getElapsedTime().asSeconds();
 }
 void Explosion::Update(float dt) {
-	for (int i = 0; i < particles_.size(); ++i) {
+	for (size_t i = 0; i < particles_.size(); ++i) {
 		sf::Vector2f velocity = velocities_[i];
 		velocity.y += 9.8 * 10.f * dt;  // Apply gravity
 

@@ -1,17 +1,17 @@
 #include "main.h"
 #include <iostream>
 
-	RootSegment::RootSegment(sf::Vector2f position, double size, double speed, const sf::Texture *texture)
+	RootSegment::RootSegment(sf::Vector2f position, float size, float speed, const sf::Texture *texture)
 	{
 		this->_active = true;
 		this->_target_y_size = size;
 		this->_texture_y_scale = 0.f;
 		this->_speed = sf::Vector2f(speed, speed);
-		this->setPosition(position.x - size * 0.64 / 2, position.y);
+		this->setPosition(position.x - size * 0.64f / 2, position.y);
 		this->setTexture(texture);
-		this->setSize(sf::Vector2f(size * 0.64, 0.f));
-		this->setTextureRect(sf::IntRect(0, 0, texture->getSize().x, 0.f));
-		this->setOrigin(size * 0.64 / 2, 0.f);
+		this->setSize(sf::Vector2f(size * 0.64f, 0.f));
+		this->setTextureRect(sf::IntRect(0, 0, texture->getSize().x, 0));
+		this->setOrigin(size * 0.64f / 2, 0.f);
 	}
 	void RootSegment::update(float dt)
 	{
@@ -19,7 +19,7 @@
 		{
 			this->setSize(sf::Vector2f(this->getSize().x, this->getSize().y + _speed.y * dt));
 			_texture_y_scale += dt * _speed.y * (75 / _target_y_size); //75 is texture y size
-			this->setTextureRect(sf::IntRect(0, 0, this->getTextureRect().width, _texture_y_scale));
+			this->setTextureRect(sf::IntRect(0, 0, this->getTextureRect().width, (int)_texture_y_scale));
 			if (this->getSize().y > _target_y_size)
 			{
 				this->setSize(sf::Vector2f(this->getSize().x, _target_y_size));
@@ -31,11 +31,11 @@
 		//this->setPosition(this->getPosition() + sf::Vector2f(0, this->speed.y * dt));
 	}
 
-	Root::Root(sf::Vector2f position, double size, double speed, const Game *game)
+	Root::Root(sf::Vector2f position, float size, float speed, const Game *game)
 	{
 		_speed = speed;
-		_base.setPosition(position.x - size * 0.64 / 2, position.y);
-		_base.setSize(sf::Vector2f(size * 0.64, size));
+		_base.setPosition(position.x - size * 0.64f / 2.f, position.y);
+		_base.setSize(sf::Vector2f(size * 0.64f, size));
 		_tex = &(game->root_texture);
 		_root_base.setOrigin(size / 2, 0.f);
 		_root_base.setTexture(&(game->texture_root_end));
@@ -113,7 +113,7 @@
 	int Root::intersects(sf::FloatRect collider)
 	{
 		sf::FloatRect rect;
-		for (int i = 0; i < _segments.size(); i++)
+		for (size_t i = 0; i < _segments.size(); i++)
 		{
 			sf::FloatRect root_segment = _segments[i].getGlobalBounds();
 			if (root_segment.intersects(collider))
@@ -125,7 +125,7 @@
 		return -1;
 	}
 
-	void Root::cut(double height)
+	void Root::cut(float height)
 	{
 		for (const auto& segment : _segments)
 		{

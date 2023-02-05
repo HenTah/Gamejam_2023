@@ -21,7 +21,7 @@ constexpr int WORLD_H = 720;
 constexpr float BG_SCALE = 5.65f;
 constexpr float BG_RELATIVE_SCALE = 12.2f;
 
-constexpr int OVERWHELM_ENEMY_COUNT = 100.f;
+constexpr float OVERWHELM_ENEMY_COUNT = 100.f;
 
 enum e_sounds
 {

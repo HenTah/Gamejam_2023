@@ -6,7 +6,7 @@ constexpr int	ENEMY_SPRITESHEET_VERTICAL_COUNT = 6;
 class Enemy : public sf::RectangleShape
 {
 public:
-	Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture);
+	Enemy(sf::Vector2f pos, float scale, float speed, sf::Texture* texture);
 	void			update_position(sf::Time delta, std::vector<Root>* roots);
 	float get_health();
 	void hit();

@@ -1,8 +1,8 @@
 #pragma once
 #include "main.h"
 
-constexpr int	DEFAULT_VOLUME = 10.f;
-constexpr int	MAX_VOLUME = 50.f;
+constexpr float	DEFAULT_VOLUME = 10.f;
+constexpr float	MAX_VOLUME = 50.f;
 
 class Audio
 {
@@ -11,11 +11,11 @@ public:
 	void	init();
 	void	play_music();
 	void	play_sound(int sound);
-	int		get_volume();
-	void	set_volume(int volume);
+	float	get_volume();
+	void	set_volume(float volume);
 
 private:
-	int					_volume;
+	float				_volume;
 	sf::Music			_music;
 	sf::SoundBuffer		_buffer_hit;
 	sf::SoundBuffer		_buffer_miss;
