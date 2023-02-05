@@ -27,6 +27,8 @@ Game::Game() {
 		exit(NULL);
 	if (!particle_texture.loadFromFile(PARTICLE_TEXTURE))
 		exit(NULL);
+	if (!font.loadFromFile(FONT_FILE))
+		exit(NULL);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(BG_SCALE, BG_SCALE);
 	bg_sprite.setPosition(0.f, -50.f);
@@ -141,11 +143,15 @@ void	Game::update_values()
 		else
 			particle_it++;
 	}
+
+	player.handle_movement(delta);
+
 	for (Enemy& enemy : enemies)
 	{
 		enemy.update_position(delta, &roots);
+		player.check_slime_bounce(enemy);
 	}
-	player.handle_movement(this, delta);
+
 	player.update_position(delta);
 
 	if (player.is_attacking())

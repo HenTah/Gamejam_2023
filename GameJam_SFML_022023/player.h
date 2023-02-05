@@ -41,6 +41,7 @@ constexpr std::pair<int, int> ANIMATION_FRAMES[5] = {
 {37, 44}
 };
 
+class Enemy;
 
 class Player : public sf::RectangleShape
 {
@@ -48,11 +49,12 @@ public:
 	Player();
 	void			init(sf::Texture* texture);
 	void			take_damage(int damage);
-	void			handle_movement(Game *game, sf::Time delta);
+	void			handle_movement(sf::Time delta);
 	void			update_position(sf::Time delta);
 	void			attack();
 	sf::FloatRect	get_attack_bounds();
 	bool			is_attacking();
+	void			check_slime_bounce(Enemy& enemy);
 private:
 	int				_health;
 	sf::Vector2f	_velocity;
@@ -68,5 +70,4 @@ private:
 	void			_change_state(int state);
 	void			_progress_animation();
 	void			_update_frame();
-	void			_check_slime_bounce(Game* game);
 };

@@ -18,6 +18,7 @@ public:
 	sf::View			view;
 	sf::Texture			texture;
 	sf::Texture			texture_player;
+	sf::Font			font;
 	Player				player;
 	Audio				audio;
 	Menu				menu;
