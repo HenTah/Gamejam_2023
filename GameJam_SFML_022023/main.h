@@ -12,6 +12,7 @@ constexpr auto AUDIO_MUSIC = "./assets/music.ogg";
 constexpr auto AUDIO_HIT = "./assets/hit.wav";
 constexpr auto AUDIO_MISS = "./assets/miss.wav";
 constexpr auto ENEMY_TEXTURE = "./assets/Slime_sheet.png";
+constexpr auto PARTICLE_TEXTURE = "./assets/particle.png";
 
 constexpr int WIN_W = 1280;
 constexpr int WIN_H = 720;
@@ -38,5 +39,5 @@ enum e_sounds
 #include "Enemy.h"
 #include "audio.h"
 #include "menu.h"
-#include "game.h"
 #include "Explosion.h"
+#include "game.h"

@@ -1,6 +1,6 @@
 #include "main.h"
+//Explosion explooose(sf::Vector2f(200.f, 200.f), sf::Color::Green, 15);
 
-Explosion explooose(sf::Vector2f(200.f, 200.f), sf::Color::Green, 15);
 
 Game::Game() {
 	sf::Vector2f	world = sf::Vector2f((float)WORLD_W, (float)WORLD_H);
@@ -24,6 +24,8 @@ Game::Game() {
 	if (!texture_root_end.loadFromFile(ROOT_END_TEXTURE))
 		exit(NULL);
 	if (!enemy_texture.loadFromFile(ENEMY_TEXTURE))
+		exit(NULL);
+	if (!particle_texture.loadFromFile(PARTICLE_TEXTURE))
 		exit(NULL);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(BG_SCALE, BG_SCALE);
@@ -70,6 +72,7 @@ void	Game::update_growth()
 		_next_growth = grow_timer(engine);
 		_growth_timer.restart();
 		roots.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), grow_size(engine), grow_speed(engine), this);
+		particles.emplace_back(sf::Vector2f(roots.back().getGlobalBounds().left, 0.f), sf::Color::Cyan, 10, particle_texture);
 	}
 }
 
@@ -119,6 +122,8 @@ void	Game::update_values()
 			else if(i > 0)
 			{
 				(*root_it).cut(i);
+				obj = (*root_it).getGlobalBounds();
+				particles.emplace_back(sf::Vector2f(obj.left + obj.width / 2, collider.top), sf::Color::Red, 25, particle_texture);
 				audio.play_sound(SOUND_HIT);
 			}
 		}
@@ -126,7 +131,16 @@ void	Game::update_values()
 	}
 	update_growth();
 	spawner();
-	explooose.Update(delta.asSeconds());
+	for (auto particle_it = particles.begin(); particle_it != particles.end();)
+	{
+		(*particle_it).Update(delta.asSeconds());
+		if ((*particle_it).get_alive() > 2.f)
+		{
+			particle_it = particles.erase(particle_it);
+		}
+		else
+			particle_it++;
+	}
 	for (Enemy& enemy : enemies)
 	{
 		enemy.update_position(delta, &roots);
@@ -156,8 +170,10 @@ void	Game::render()
 		window.draw(enemy);
 	}
 	//window.draw(shape); //collider debug view
-	explooose.Draw(window);
-
+	for (Explosion& particle : particles)
+	{
+		particle.Draw(window);
+	}
 	// Debug attack bounds
 	if (player.is_attacking())
 	{

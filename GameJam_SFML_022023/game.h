@@ -11,6 +11,7 @@ class Game {
 public:
 	std::vector<Root>	roots;
 	std::vector<Enemy>	enemies;
+	std::vector<Explosion> particles;
 	sf::Clock			clock;
 	sf::Time			delta;
 	sf::RenderWindow	window;
@@ -24,6 +25,7 @@ public:
 	sf::Sprite			bg_sprite;
 	sf::Texture			texture_root_end;
 	sf::Texture			enemy_texture;
+	sf::Texture			particle_texture;
 
 	Game();
 
