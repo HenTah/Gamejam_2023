@@ -2,7 +2,8 @@
 //Explosion explooose(sf::Vector2f(200.f, 200.f), sf::Color::Green, 15);
 
 
-Game::Game() {
+Game::Game()
+{
 	sf::Vector2f	world = sf::Vector2f((float)WORLD_W, (float)WORLD_H);
 
 	window.create(sf::VideoMode(WIN_W, WIN_H), GAME_NAME);
@@ -100,6 +101,9 @@ void Game::spawner()
 
 void	Game::update_values()
 {
+	if (_state == STATE_GAMEOVER)
+		return;
+
 	delta = clock.restart();
 
 	if (_state == STATE_MENU)
@@ -116,7 +120,7 @@ void	Game::update_values()
 	{
 		(*root_it).update(delta.asSeconds());
 		obj = (*root_it).getGlobalBounds();
-		if (player.is_attacking() )
+		if (player.is_attacking())
 		{
 			int i = (*root_it).intersects(collider);
 
@@ -125,7 +129,7 @@ void	Game::update_values()
 				root_it = roots.erase(root_it);
 				continue;
 			}
-			else if(i > 0)
+			else if (i > 0)
 			{
 				(*root_it).cut(i);
 				obj = (*root_it).getGlobalBounds();
@@ -159,7 +163,7 @@ void	Game::update_values()
 		{
 			if (player.check_slime_bounce(*enemy_it))
 				(*enemy_it).hit();
-			
+
 		}
 		(*enemy_it).update_position(delta, &roots);
 		if ((*enemy_it).get_health() < 0)
@@ -169,6 +173,9 @@ void	Game::update_values()
 		else
 			enemy_it++;
 	}
+
+	if (_grounded_enemies > OVERWHELM_ENEMY_COUNT)
+		_state = STATE_GAMEOVER;
 
 	player.update_position(delta);
 	_update_ui();
@@ -222,7 +229,7 @@ void	Game::handle_view()
 {
 	float	player_center = player.getPosition().x + PLAYER_W / 2.f;
 
-	if (player_center < WIN_W / 2.f || player_center > (float)WORLD_W - WIN_W / 2.f)
+	if (player_center < WIN_W / 2.f || player_center >(float)WORLD_W - WIN_W / 2.f)
 		return;
 
 	float	offset = player_center - view.getCenter().x;
@@ -264,22 +271,48 @@ void	Game::_init_ui()
 	_text.setCharacterSize(32);
 	_text.setFillColor(sf::Color::White);
 	_text.setPosition(sf::Vector2f(10.f, 47.f));
+
+	_text_score.setFont(font);
+	_text_score.setString("0");
+	_text_score.setCharacterSize(32);
+	_text_score.setFillColor(sf::Color::White);
+	_text_score.setPosition(sf::Vector2f(120.f, 47.f));
+
+	_text_gameover.setFont(font);
+	_text_gameover.setString("GAME OVER");
+	_text_gameover.setCharacterSize(32);
+	_text_gameover.setFillColor(sf::Color::White);
+	_text_gameover.setPosition(sf::Vector2f((float)((WIN_W - 100) / 2), (float)(WIN_H / 2)));
+
+	_bg_shadow.setSize(sf::Vector2f((float)(WIN_W), (float)(WIN_H)));
+	_bg_shadow.setFillColor(sf::Color(0, 0, 0, 200));
 }
 
 void	Game::_update_ui()
 {
 	_overwhelming_bar.setSize(sf::Vector2f(_grounded_enemies * 395 / OVERWHELM_ENEMY_COUNT, 37.f));
 	_overwhelming_bar.setTextureRect(sf::IntRect(569, 34, _grounded_enemies * 395 / OVERWHELM_ENEMY_COUNT, 37));
+	_text_score.setString(std::to_string((int)pow(1.04f, 1.f + score.asSeconds()) + (int)score.asSeconds()));
 }
 
 void	Game::_draw_ui()
 {
 	float	offset = -(window.getView().getCenter().x - WIN_W / 2.f);
 
+	if (_state == STATE_GAMEOVER)
+	{
+		_bg_shadow.setOrigin(sf::Vector2f(offset, 0.f));
+		_text_gameover.setOrigin(sf::Vector2f(offset, 0.f));
+		window.draw(_bg_shadow);
+		window.draw(_text_gameover);
+	}
+
 	_overwhelming_bar_frame.setOrigin(sf::Vector2f(offset, 0.f));
 	_overwhelming_bar.setOrigin(sf::Vector2f(offset, 0.f));
 	_text.setOrigin(sf::Vector2f(offset, 0.f));
+	_text_score.setOrigin(sf::Vector2f(offset, 0.f));
 	window.draw(_overwhelming_bar_frame);
 	window.draw(_overwhelming_bar);
 	window.draw(_text);
+	window.draw(_text_score);
 }

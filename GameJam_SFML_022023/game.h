@@ -4,7 +4,8 @@
 enum e_game_status
 {
 	STATE_GAME,
-	STATE_MENU
+	STATE_GAMEOVER,
+	STATE_MENU,
 };
 
 class Game {
@@ -50,7 +51,10 @@ private:
 	sf::RectangleShape	_overwhelming_bar_frame;
 	sf::RectangleShape	_overwhelming_bar;
 	sf::Text			_text;
+	sf::Text			_text_score;
+	sf::Text			_text_gameover;
 	int					_grounded_enemies;
+	sf::RectangleShape	_bg_shadow;
 
 	void				_init_ui();
 	void				_update_ui();
