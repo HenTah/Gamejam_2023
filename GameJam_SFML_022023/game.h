@@ -52,6 +52,8 @@ private:
 	float				_next_spawn;
 	sf::RectangleShape	_overwhelming_bar_frame;
 	sf::RectangleShape	_overwhelming_bar;
+	sf::RectangleShape	_enemies_left_icon;
+	sf::RectangleShape	_enemies_right_icon;
 	sf::Text			_text;
 	sf::Text			_text_score;
 	sf::Text			_text_gameover;

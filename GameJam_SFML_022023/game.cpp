@@ -96,7 +96,6 @@ void Game::spawner()
 
 		_next_spawn = spawn_timer(engine);
 		_spawn_timer.restart();
-		printf("speed %i\n", direction);
 
 		enemies.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), spawn_scale(engine), direction * spawn_speed(engine), &enemy_texture);
 		direction = -direction;
@@ -264,6 +263,20 @@ void	Game::_init_ui()
 	_overwhelming_bar.setScale(1.f, 1.f);
 	_overwhelming_bar.setPosition(sf::Vector2f(10.f, 10.f));
 
+	_enemies_left_icon.setTexture(&ui_texture);
+	_enemies_left_icon.setSize(sf::Vector2f(118.f, 118.f));
+	_enemies_left_icon.setTextureRect(sf::IntRect(144, 0, 118, 118));
+	_enemies_left_icon.setScale(1.f, 1.f);
+	_enemies_left_icon.setOrigin(sf::Vector2f(59.f, 59.f));
+	_enemies_left_icon.setRotation(180.f);
+	_enemies_left_icon.setPosition(sf::Vector2f(138.f, WIN_H / 2.f));
+
+	_enemies_right_icon.setTexture(&ui_texture);
+	_enemies_right_icon.setSize(sf::Vector2f(118.f, 118.f));
+	_enemies_right_icon.setTextureRect(sf::IntRect(144, 0, 118, 118));
+	_enemies_right_icon.setScale(1.f, 1.f);
+	_enemies_right_icon.setPosition(sf::Vector2f(WIN_W - 138.f, WIN_H / 2.f - 59.f));
+
 	_text.setFont(font);
 	_text.setString("Score");
 	_text.setCharacterSize(32);
@@ -304,13 +317,22 @@ void	Game::_draw_ui()
 		window.draw(_bg_shadow);
 		window.draw(_text_gameover);
 	}
-
 	_overwhelming_bar_frame.setOrigin(sf::Vector2f(offset, 0.f));
 	_overwhelming_bar.setOrigin(sf::Vector2f(offset, 0.f));
 	_text.setOrigin(sf::Vector2f(offset, 0.f));
 	_text_score.setOrigin(sf::Vector2f(offset, 0.f));
+	_enemies_left_icon.setPosition(sf::Vector2f(
+		-offset + 79.f,
+		_enemies_left_icon.getPosition().y));
+	_enemies_right_icon.setOrigin(sf::Vector2f(offset, 0.f));
 	window.draw(_overwhelming_bar_frame);
 	window.draw(_overwhelming_bar);
 	window.draw(_text);
 	window.draw(_text_score);
+
+	if (_enemies_left)
+		window.draw(_enemies_left_icon);
+
+	if (_enemies_right)
+		window.draw(_enemies_right_icon);
 }
