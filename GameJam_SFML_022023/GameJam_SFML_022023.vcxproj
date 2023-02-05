@@ -155,9 +155,16 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="plant.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameJam_SFML_022023.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\Downloads\icon.bmp" />
+    <Image Include="..\..\..\..\..\..\Downloads\icon.ico" />
+    <Image Include="..\..\..\..\..\..\Downloads\icon.png" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

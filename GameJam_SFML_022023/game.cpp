@@ -70,7 +70,7 @@ void	Game::update_growth()
 	{
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
-		std::uniform_real_distribution<float> grow_timer(1.f, 5.f);
+		std::uniform_real_distribution<float> grow_timer(1.f, 3.f);
 		std::uniform_real_distribution<float> grow_size(100.f, 200.f);
 		std::uniform_real_distribution<float> grow_speed(50.f, 200.f);
 
@@ -90,7 +90,7 @@ void Game::spawner()
 	{
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
-		std::uniform_real_distribution<float> spawn_timer(0.5f, 3.f);
+		std::uniform_real_distribution<float> spawn_timer(0.5f, 2.f);
 		std::uniform_real_distribution<float> spawn_scale(0.75f, 1.25f);
 		std::uniform_real_distribution<float> spawn_speed(100.f, 300.f);
 
