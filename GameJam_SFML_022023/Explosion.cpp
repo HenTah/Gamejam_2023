@@ -31,7 +31,7 @@ double Explosion::get_alive()
 void Explosion::Update(float dt) {
 	for (size_t i = 0; i < particles_.size(); ++i) {
 		sf::Vector2f velocity = velocities_[i];
-		velocity.y += 9.8 * 10.f * dt;  // Apply gravity
+		velocity.y += 9.8f * 10.f * dt;  // Apply gravity
 
 		particles_[i].scale(sf::Vector2f(1.f - 5.f * dt * (1 - 0.9f), 1.f - 5.f * dt * (1 - 0.9f)));
 		particles_[i].move(velocity * dt);

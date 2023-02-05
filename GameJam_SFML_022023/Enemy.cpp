@@ -18,8 +18,8 @@ Enemy::Enemy(sf::Vector2f pos, float scale, float speed, sf::Texture* texture)
 
 void	Enemy::hit()
 {
-	if (_health == 100.f);
-	_health -= 1.f;
+	if (_health == 100.f)
+		_health -= 1.f;
 }
 
 float	Enemy::get_health()
