@@ -5,7 +5,7 @@ class Game;
 class RootSegment : public sf::RectangleShape
 {
 public:
-	RootSegment(sf::Vector2f position, double size, double speed, const sf::Texture *texture);
+	RootSegment(sf::Vector2f position, double size, double speed, const sf::Texture* texture);
 	void			update(float dt);
 
 	bool			 get_active() const { return _active; }
@@ -21,7 +21,7 @@ private:
 class Root
 {
 public:
-	Root(sf::Vector2f position, double size, double speed, const Game *game);
+	Root(sf::Vector2f position, double size, double speed, const Game* game);
 	void			update(float dt);
 	void			draw(sf::RenderWindow& window);
 	void			translate(sf::Vector2f offset);
@@ -32,12 +32,13 @@ public:
 	bool			getState();
 	void			cut(int i);
 private:
+	std::vector<Enemy> *_enemies;
 	double			_speed;
 	bool			_killed;
 	bool			_grounded;
 	sf::RectangleShape _base;
 	std::vector<RootSegment> _segments;
 	double			_alive;
-	const sf::Texture *_tex;
+	const sf::Texture* _tex;
 	sf::RectangleShape _root_base;
 };

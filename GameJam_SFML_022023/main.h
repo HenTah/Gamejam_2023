@@ -36,9 +36,9 @@ enum e_sounds
 #include <random>
 #include <iostream>
 #include <random>
+#include "Enemy.h"
 #include "plant.h"
 #include "player.h"
-#include "Enemy.h"
 #include "audio.h"
 #include "menu.h"
 #include "Explosion.h"

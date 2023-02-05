@@ -72,7 +72,7 @@ void	Game::update_growth()
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
 		std::uniform_real_distribution<float> grow_timer(1.f, 5.f);
 		std::uniform_real_distribution<float> grow_size(100.f, 200.f);
-		std::uniform_real_distribution<float> grow_speed(25.f, 100.f);
+		std::uniform_real_distribution<float> grow_speed(50.f, 200.f);
 
 		_next_growth = grow_timer(engine);
 		_growth_timer.restart();
@@ -90,9 +90,9 @@ void Game::spawner()
 	{
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
-		std::uniform_real_distribution<float> spawn_timer(1.f, 5.f);
+		std::uniform_real_distribution<float> spawn_timer(0.5f, 3.f);
 		std::uniform_real_distribution<float> spawn_scale(0.75f, 1.25f);
-		std::uniform_real_distribution<float> spawn_speed(50.f, 200.f);
+		std::uniform_real_distribution<float> spawn_speed(100.f, 300.f);
 
 		_next_spawn = spawn_timer(engine);
 		_spawn_timer.restart();
@@ -127,18 +127,23 @@ void	Game::update_values()
 		if (player.is_attacking())
 		{
 			int i = (*root_it).intersects(collider);
-
-			if (i == 0)
+			if (i >= 0)
 			{
-				root_it = roots.erase(root_it);
-				continue;
-			}
-			else if (i > 0)
-			{
-				(*root_it).cut(i);
-				obj = (*root_it).getGlobalBounds();
 				particles.emplace_back(sf::Vector2f(obj.left + obj.width / 2, collider.top), sf::Color::Red, 25, particle_texture);
 				audio.play_sound(SOUND_HIT);
+				for (auto& enemy : enemies)
+				{
+					if (enemy.get_root() == &(*root_it))
+					{
+						enemy.set_root();
+					}
+				}
+				if (i == 0)
+				{
+					root_it = roots.erase(root_it);
+					continue;
+				}
+				(*root_it).cut(i);
 			}
 		}
 		if ((*root_it).getState() && (*root_it).get_pos() < (window.getView().getCenter().x - WIN_W / 2.f))
@@ -216,7 +221,6 @@ void	Game::render()
 
 	window.draw(player);
 	_draw_ui();
-
 	if (_state == STATE_MENU)
 		menu.render(window);
 	window.display();

@@ -3,6 +3,8 @@
 constexpr int	ENEMY_SPRITESHEET_HORIZONTAL_COUNT = 5;
 constexpr int	ENEMY_SPRITESHEET_VERTICAL_COUNT = 6;
 
+class Root;
+
 class Enemy : public sf::RectangleShape
 {
 public:
@@ -11,6 +13,8 @@ public:
 	float get_health();
 	void hit();
 	bool			is_grounded();
+	Root*			get_root();
+	void			set_root();
 private:
 	bool			_walk;
 	bool			_grounded;

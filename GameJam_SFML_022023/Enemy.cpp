@@ -8,7 +8,7 @@ Enemy::Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture)
 	setTexture(texture);
 	setOrigin(sf::Vector2f(32.f, 44.f));
 	setSize(sf::Vector2f(64.f * scale, 44.f * scale));
-	setTextureRect(sf::IntRect(0, 0, 320 / 5, 261 /6 ));
+	setTextureRect(sf::IntRect(0, 0, 320 / 5, 261 / 6));
 	_area = sf::Vector2f(0, WORLD_W);
 	_velocity = sf::Vector2f(speed, 0.f);
 	_frame_id = 0;
@@ -19,7 +19,7 @@ Enemy::Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture)
 void	Enemy::hit()
 {
 	if (_health == 100.f);
-		_health -= 1.f;
+	_health -= 1.f;
 }
 
 float	Enemy::get_health()
@@ -27,7 +27,17 @@ float	Enemy::get_health()
 	return _health;
 }
 
-void	Enemy::update_position(sf::Time delta, std::vector<Root> *roots)
+Root* Enemy::get_root()
+{
+	return _climbing_root;
+}
+
+void	Enemy::set_root()
+{
+	_climbing_root = NULL;
+}
+
+void	Enemy::update_position(sf::Time delta, std::vector<Root>* roots)
 {
 	sf::FloatRect bounds = this->getGlobalBounds();
 	//looking for roots
@@ -44,8 +54,6 @@ void	Enemy::update_position(sf::Time delta, std::vector<Root> *roots)
 					_area = sf::Vector2f(rootbounds.left, rootbounds.left + rootbounds.width);
 					_walk = false;
 					_velocity.y = 100.f;
-					//_velocity.x = 25.f;
-
 				}
 			}
 		}
@@ -64,7 +72,7 @@ void	Enemy::update_position(sf::Time delta, std::vector<Root> *roots)
 	{
 		if (!_grounded
 			&& ((!_climbing_root && !_walk)
-			|| (_climbing_root && !(_climbing_root->getState()))))
+				|| (_climbing_root && !(_climbing_root->getState()))))
 		{
 			_velocity.y = 500.f;
 		}
@@ -111,7 +119,7 @@ void	Enemy::_progress_animation()
 	this->_frame_id++;
 	if (this->_frame_id >= 5 * 6)
 	{
-			this->_frame_id = 0;
+		this->_frame_id = 0;
 	}
 
 	this->_update_frame();
