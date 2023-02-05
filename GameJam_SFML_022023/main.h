@@ -22,6 +22,8 @@ constexpr int WORLD_H = 720;
 constexpr int BG_SCALE = 6.f;
 constexpr int BG_RELATIVE_SCALE = 13.f;
 
+constexpr int OVERWHELM_ENEMY_COUNT = 100.f;
+
 enum e_sounds
 {
 	SOUND_HIT,

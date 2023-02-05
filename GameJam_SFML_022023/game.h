@@ -16,8 +16,9 @@ public:
 	sf::Time			delta;
 	sf::RenderWindow	window;
 	sf::View			view;
-	sf::Texture			texture;
-	sf::Texture			texture_player;
+	sf::Texture			root_texture;
+	sf::Texture			player_texture;
+	sf::Texture			ui_texture;
 	sf::Font			font;
 	Player				player;
 	Audio				audio;
@@ -45,5 +46,12 @@ private:
 	int					_state;
 	float				_next_growth;
 	float				_next_spawn;
+	sf::RectangleShape	_overwhelming_bar_frame;
+	sf::RectangleShape	_overwhelming_bar;
+	sf::Text			_text;
+	int					_grounded_enemies;
 
+	void				_init_ui();
+	void				_update_ui();
+	void				_draw_ui();
 };

@@ -6,31 +6,28 @@ Menu::Menu()
 
 void	Menu::init(Game* game)
 {
-	if (!_ui_texture.loadFromFile(UI_TEXTURE))
-		exit(NULL);
-
 	_bg_shadow.setSize(sf::Vector2f((float)(WIN_W), (float)(WIN_H)));
 	_bg_shadow.setFillColor(sf::Color(0, 0, 0, 200));
 
-	_button_play.setTexture(&_ui_texture);
+	_button_play.setTexture(&game->ui_texture);
 	_button_play.setSize(sf::Vector2f(486.f, 150.f));
 	_button_play.setTextureRect(sf::IntRect(0, 150, 486, 150));
 	_button_play.setScale(1.f, 1.f);
 	_button_play.setPosition(sf::Vector2f((float)((WIN_W - 486) / 2), (float)(WIN_H / 4 * 1 - 150 / 2)));
 
-	_button_exit.setTexture(&_ui_texture);
+	_button_exit.setTexture(&game->ui_texture);
 	_button_exit.setSize(sf::Vector2f(344.f, 173.f));
 	_button_exit.setTextureRect(sf::IntRect(1070, 128, 344, 173));
 	_button_exit.setScale(1.f, 1.f);
 	_button_exit.setPosition(sf::Vector2f((float)((WIN_W - 344) / 2), (float)(WIN_H / 4 * 2 - 173 / 2)));
 
-	_volume_bar_frame.setTexture(&_ui_texture);
+	_volume_bar_frame.setTexture(&game->ui_texture);
 	_volume_bar_frame.setSize(sf::Vector2f(395.f, 37.f));
 	_volume_bar_frame.setTextureRect(sf::IntRect(569, 237, 395, 37));
 	_volume_bar_frame.setScale(1.f, 1.f);
 	_volume_bar_frame.setPosition(sf::Vector2f((float)((WIN_W - 365) / 2), (float)(WIN_H / 4 * 3 - 37 / 2)));
 
-	_volume_bar.setTexture(&_ui_texture);
+	_volume_bar.setTexture(&game->ui_texture);
 	_volume_bar.setSize(sf::Vector2f(DEFAULT_VOLUME * 395 / 100.f, 37.f));
 	_volume_bar.setTextureRect(sf::IntRect(569, 173, DEFAULT_VOLUME * 395 / 100, 37));
 	_volume_bar.setScale(1.f, 1.f);

@@ -14,11 +14,11 @@ Game::Game() {
 	delta = clock.restart();
 	_next_growth = 0.f;
 	_state = STATE_GAME;
-	if (!texture.loadFromFile(ROOT_TEXTURE))
+	if (!root_texture.loadFromFile(ROOT_TEXTURE))
 		exit(NULL);
-	if (!texture_player.loadFromFile(PLAYER_TEXTURE))
+	if (!player_texture.loadFromFile(PLAYER_TEXTURE))
 		exit(NULL);
-	player.init(&texture_player);
+	player.init(&player_texture);
 	if (!bg_texture.loadFromFile(BG_TEXTURE))
 		exit(NULL);
 	if (!texture_root_end.loadFromFile(ROOT_END_TEXTURE))
@@ -26,6 +26,8 @@ Game::Game() {
 	if (!enemy_texture.loadFromFile(ENEMY_TEXTURE))
 		exit(NULL);
 	if (!particle_texture.loadFromFile(PARTICLE_TEXTURE))
+		exit(NULL);
+	if (!ui_texture.loadFromFile(UI_TEXTURE))
 		exit(NULL);
 	if (!font.loadFromFile(FONT_FILE))
 		exit(NULL);
@@ -35,6 +37,7 @@ Game::Game() {
 	audio.init();
 	menu.init(this);
 	audio.play_music();
+	_init_ui();
 }
 
 void	Game::handle_events(sf::Event& event)
@@ -146,13 +149,18 @@ void	Game::update_values()
 
 	player.handle_movement(delta);
 
+	_grounded_enemies = 0;
 	for (Enemy& enemy : enemies)
 	{
+		if (enemy.is_grounded())
+			_grounded_enemies++;
+
 		enemy.update_position(delta, &roots);
 		player.check_slime_bounce(enemy);
 	}
 
 	player.update_position(delta);
+	_update_ui();
 
 	if (player.is_attacking())
 		audio.play_sound(SOUND_MISS);
@@ -192,6 +200,7 @@ void	Game::render()
 	}
 
 	window.draw(player);
+	_draw_ui();
 
 	if (_state == STATE_MENU)
 		menu.render(window);
@@ -223,4 +232,43 @@ void	Game::exit_game()
 {
 	window.close();
 	exit(EXIT_SUCCESS);
+}
+
+void	Game::_init_ui()
+{
+	_overwhelming_bar_frame.setTexture(&ui_texture);
+	_overwhelming_bar_frame.setSize(sf::Vector2f(395.f, 37.f));
+	_overwhelming_bar_frame.setTextureRect(sf::IntRect(569, 98, 395, 37));
+	_overwhelming_bar_frame.setScale(1.f, 1.f);
+	_overwhelming_bar_frame.setPosition(sf::Vector2f(10.f, 10.f));
+
+	_overwhelming_bar.setTexture(&ui_texture);
+	_overwhelming_bar.setSize(sf::Vector2f(1.f, 37.f));
+	_overwhelming_bar.setTextureRect(sf::IntRect(569, 34, 1, 37));
+	_overwhelming_bar.setScale(1.f, 1.f);
+	_overwhelming_bar.setPosition(sf::Vector2f(10.f, 10.f));
+
+	_text.setFont(font);
+	_text.setString("Score");
+	_text.setCharacterSize(32);
+	_text.setFillColor(sf::Color::White);
+	_text.setPosition(sf::Vector2f(10.f, 47.f));
+}
+
+void	Game::_update_ui()
+{
+	_overwhelming_bar.setSize(sf::Vector2f(_grounded_enemies * 395 / OVERWHELM_ENEMY_COUNT, 37.f));
+	_overwhelming_bar.setTextureRect(sf::IntRect(569, 34, _grounded_enemies * 395 / OVERWHELM_ENEMY_COUNT, 37));
+}
+
+void	Game::_draw_ui()
+{
+	float	offset = -(window.getView().getCenter().x - WIN_W / 2.f);
+
+	_overwhelming_bar_frame.setOrigin(sf::Vector2f(offset, 0.f));
+	_overwhelming_bar.setOrigin(sf::Vector2f(offset, 0.f));
+	_text.setOrigin(sf::Vector2f(offset, 0.f));
+	window.draw(_overwhelming_bar_frame);
+	window.draw(_overwhelming_bar);
+	window.draw(_text);
 }

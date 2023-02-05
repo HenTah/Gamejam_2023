@@ -36,7 +36,7 @@
 		_speed = speed;
 		_base.setPosition(position.x - size * 0.64 / 2, position.y);
 		_base.setSize(sf::Vector2f(size * 0.64, size));
-		_tex = &(game->texture);
+		_tex = &(game->root_texture);
 		_root_base.setOrigin(size / 2, 0.f);
 		_root_base.setTexture(&(game->texture_root_end));
 		_root_base.setSize(sf::Vector2f(size * 0.8f,size));
