@@ -1,6 +1,4 @@
 #include "main.h"
-//Explosion explooose(sf::Vector2f(200.f, 200.f), sf::Color::Green, 15);
-
 
 Game::Game()
 {
@@ -11,7 +9,8 @@ Game::Game()
 	view.setCenter(world / 2.f);
 	view.setSize(sf::Vector2f((float)WIN_W, (float)WIN_H));
 	window.setView(view);
-
+	_enemies_left = false;
+	_enemies_right = false;
 	score = sf::Time();
 	delta = clock.restart();
 	_next_growth = 0.f;
@@ -35,7 +34,6 @@ Game::Game()
 		exit(NULL);
 	bg_sprite.setTexture(bg_texture);
 	bg_sprite.setScale(BG_SCALE, BG_SCALE);
-	bg_sprite.setPosition(0.f, -50.f);
 	audio.init();
 	menu.init(this);
 	audio.play_music();
@@ -85,6 +83,9 @@ void	Game::update_growth()
 
 void Game::spawner()
 {
+	static int direction;
+	if (!direction)
+		direction = 1;
 	if (_spawn_timer.getElapsedTime().asSeconds() > _next_spawn)
 	{
 		std::mt19937 engine(std::random_device{}());
@@ -95,12 +96,16 @@ void Game::spawner()
 
 		_next_spawn = spawn_timer(engine);
 		_spawn_timer.restart();
-		enemies.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), spawn_scale(engine), spawn_speed(engine), &enemy_texture);
+		printf("speed %i\n", direction);
+
+		enemies.emplace_back(sf::Vector2f(play_area_x(engine), 0.f), spawn_scale(engine), direction * spawn_speed(engine), &enemy_texture);
+		direction = -direction;
 	}
 }
 
 void	Game::update_values()
 {
+	_enemies_left = _enemies_right = 0;
 	if (_state == STATE_GAMEOVER)
 		return;
 
@@ -137,6 +142,10 @@ void	Game::update_values()
 				audio.play_sound(SOUND_HIT);
 			}
 		}
+		if ((*root_it).getState() && (*root_it).get_pos() < (window.getView().getCenter().x - WIN_W / 2.f))
+			_enemies_left = true;
+		if ((*root_it).getState() && (*root_it).get_pos() > (window.getView().getCenter().x + WIN_W / 2.f))
+			_enemies_right = true;
 		root_it++;
 	}
 	update_growth();

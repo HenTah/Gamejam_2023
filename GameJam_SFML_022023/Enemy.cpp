@@ -13,7 +13,6 @@ Enemy::Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture)
 	_velocity = sf::Vector2f(speed, 0.f);
 	_frame_id = 0;
 	_climbing_root = NULL;
-
 	setPosition(sf::Vector2f(pos.x, pos.y + 50.f));
 }
 
