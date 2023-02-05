@@ -18,7 +18,7 @@
 		if (get_active())
 		{
 			this->setSize(sf::Vector2f(this->getSize().x, this->getSize().y + _speed.y * dt));
-			_texture_y_scale += dt * _speed.y * (400 / _target_y_size); //400 is texture y size
+			_texture_y_scale += dt * _speed.y * (75 / _target_y_size); //75 is texture y size
 			this->setTextureRect(sf::IntRect(0, 0, this->getTextureRect().width, _texture_y_scale));
 			if (this->getSize().y > _target_y_size)
 			{
