@@ -9,7 +9,7 @@ class Menu
 {
 public:
 	Menu();
-	void	init();
+	void	init(Game* game);
 	void	render(sf::RenderWindow &window);
 	void	update_values(Game *game);
 	void	handle_actions(Game* game);
@@ -20,4 +20,5 @@ private:
 	sf::RectangleShape	_button_play;
 	sf::RectangleShape	_button_exit;
 	sf::RectangleShape	_bg_shadow;
+	sf::Text			_text;
 };

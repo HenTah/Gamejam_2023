@@ -4,7 +4,7 @@ Menu::Menu()
 {
 }
 
-void	Menu::init()
+void	Menu::init(Game* game)
 {
 	if (!_ui_texture.loadFromFile(UI_TEXTURE))
 		exit(NULL);
@@ -35,6 +35,12 @@ void	Menu::init()
 	_volume_bar.setTextureRect(sf::IntRect(569, 173, DEFAULT_VOLUME * 395 / 100, 37));
 	_volume_bar.setScale(1.f, 1.f);
 	_volume_bar.setPosition(sf::Vector2f((float)((WIN_W - 365) / 2), (float)(WIN_H / 4 * 3 - 37 / 2)));
+
+	_text.setFont(game->font);
+	_text.setString("Volume");
+	_text.setCharacterSize(32);
+	_text.setFillColor(sf::Color::White);
+	_text.setPosition(sf::Vector2f((float)((WIN_W - 70) / 2), (float)(WIN_H / 4 * 3 - 60)));
 }
 
 void	Menu::update_values(Game* game)
@@ -52,11 +58,13 @@ void	Menu::render(sf::RenderWindow& window)
 	_button_exit.setOrigin(sf::Vector2f(offset, 0.f));
 	_volume_bar_frame.setOrigin(sf::Vector2f(offset, 0.f));
 	_volume_bar.setOrigin(sf::Vector2f(offset, 0.f));
+	_text.setOrigin(sf::Vector2f(offset, 0.f));
 	window.draw(_bg_shadow);
 	window.draw(_button_play);
 	window.draw(_button_exit);
 	window.draw(_volume_bar_frame);
 	window.draw(_volume_bar);
+	window.draw(_text);
 }
 
 void	Menu::handle_actions(Game* game)

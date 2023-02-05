@@ -33,7 +33,7 @@ Game::Game() {
 	bg_sprite.setScale(BG_SCALE, BG_SCALE);
 	bg_sprite.setPosition(0.f, -50.f);
 	audio.init();
-	menu.init();
+	menu.init(this);
 	audio.play_music();
 }
 

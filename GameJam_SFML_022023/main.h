@@ -13,7 +13,7 @@ constexpr auto AUDIO_HIT = "./assets/hit.wav";
 constexpr auto AUDIO_MISS = "./assets/miss.wav";
 constexpr auto ENEMY_TEXTURE = "./assets/Slime_sheet.png";
 constexpr auto PARTICLE_TEXTURE = "./assets/particle.png";
-constexpr auto FONT_FILE = "./assets/BitPotion.ttf";
+constexpr auto FONT_FILE = "./assets/ThaleahFat.ttf";
 
 constexpr int WIN_W = 1280;
 constexpr int WIN_H = 720;
