@@ -15,6 +15,8 @@ constexpr auto ENEMY_TEXTURE = "./assets/Slime_sheet.png";
 
 constexpr int WIN_W = 1280;
 constexpr int WIN_H = 720;
+constexpr int WORLD_W = 2560;
+constexpr int WORLD_H = 720;
 
 enum e_sounds
 {

@@ -14,6 +14,7 @@ public:
 	sf::Clock			clock;
 	sf::Time			delta;
 	sf::RenderWindow	window;
+	sf::View			view;
 	sf::Texture			texture;
 	sf::Texture			texture_player;
 	Player				player;
@@ -24,13 +25,14 @@ public:
 	sf::Texture			texture_root_end;
 	sf::Texture			enemy_texture;
 
-	Game(const char* name, int w, int h);
+	Game();
 
 	void	handle_events(sf::Event &event);
 	void	update_growth(void);
 	void	spawner(void);
 	void	update_values(void);
 	void	render();
+	void	handle_view();
 	void	set_state(int state);
 	void	exit_game();
 

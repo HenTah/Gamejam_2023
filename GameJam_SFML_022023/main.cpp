@@ -2,7 +2,7 @@
 
 int main()
 {
-    Game    game(GAME_NAME, WIN_W, WIN_H);
+    Game    game;
 
     while (game.window.isOpen())
     {

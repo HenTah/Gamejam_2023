@@ -8,7 +8,7 @@ Enemy::Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture)
 	setTexture(texture);
 	setSize(sf::Vector2f(64.f * scale, 44.f * scale));
 	setTextureRect(sf::IntRect(0, 0, 320 / 5, 261 /6 ));
-	_area = sf::Vector2f(0, WIN_W);
+	_area = sf::Vector2f(0, WORLD_W);
 	_velocity = sf::Vector2f(speed, 0.f);
 	_frame_id = 0;
 	_climbing_root = NULL;
@@ -41,7 +41,7 @@ void	Enemy::update_position(sf::Time delta, std::vector<Root> *roots)
 	if (!_grounded && bounds.top > WIN_H - bounds.height)
 	{
 		_velocity.y = 0.f;
-		_area = sf::Vector2f(0, WIN_W);
+		_area = sf::Vector2f(0, WORLD_W);
 		_grounded = true;
 		_velocity.x = 100.f;
 		_walk = true;

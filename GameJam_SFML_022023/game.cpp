@@ -1,10 +1,16 @@
-#include "game.h"
+#include "main.h"
 
 Explosion explooose(sf::Vector2f(200.f, 200.f), sf::Color::Green, 15);
 
-Game::Game(const char* name, int w, int h) {
-	window.create(sf::VideoMode(w, h), name);
+Game::Game() {
+	sf::Vector2f	world = sf::Vector2f((float)WORLD_W, (float)WORLD_H);
+
+	window.create(sf::VideoMode(WIN_W, WIN_H), GAME_NAME);
 	window.setVerticalSyncEnabled(true);
+	view.setCenter(world / 2.f);
+	view.setSize(sf::Vector2f((float)WIN_W, (float)WIN_H));
+	window.setView(view);
+
 	delta = clock.restart();
 	_next_growth = 0.f;
 	_state = STATE_GAME;
@@ -56,7 +62,7 @@ void	Game::update_growth()
 	if (_growth_timer.getElapsedTime().asSeconds() > _next_growth)
 	{
 		std::mt19937 engine(std::random_device{}());
-		std::uniform_real_distribution<float> play_area_x(50, WIN_W);
+		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
 		std::uniform_real_distribution<float> grow_timer(1.f, 5.f);
 		std::uniform_real_distribution<float> grow_size(50.f, 200.f);
 		std::uniform_real_distribution<float> grow_speed(25.f, 100.f);
@@ -72,7 +78,7 @@ void Game::spawner()
 	if (_spawn_timer.getElapsedTime().asSeconds() > _next_spawn)
 	{
 		std::mt19937 engine(std::random_device{}());
-		std::uniform_real_distribution<float> play_area_x(50, WIN_W);
+		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
 		std::uniform_real_distribution<float> spawn_timer(1.f, 5.f);
 		std::uniform_real_distribution<float> spawn_scale(0.75f, 2.f);
 		std::uniform_real_distribution<float> spawn_speed(100.f, 200.f);
@@ -122,6 +128,7 @@ void	Game::update_values()
 
 void	Game::render()
 {
+	handle_view();
 	window.clear();
 	window.draw(bg_sprite);
 	sf::RectangleShape shape;
@@ -155,6 +162,19 @@ void	Game::render()
 	if (_state == STATE_MENU)
 		menu.render(window);
 	window.display();
+}
+
+void	Game::handle_view()
+{
+	float	offset = player.getPosition().x - view.getCenter().x;
+	
+	if (offset + PLAYER_CLAMP_PADDING < -(WIN_W / 2.f))
+		view.move(sf::Vector2f(offset + PLAYER_CLAMP_PADDING + WIN_W / 2.f, 0.f));
+
+	if (offset + PLAYER_CLAMP_PADDING > WIN_W / 2.f)
+		view.move(sf::Vector2f(offset + PLAYER_CLAMP_PADDING - WIN_W / 2.f, 0.f));
+
+	window.setView(view);
 }
 
 void	Game::set_state(int state)

@@ -13,7 +13,7 @@ void	Player::init(sf::Texture* texture)
 	this->setTextureRect(sf::IntRect(0, 0, PLAYER_W, PLAYER_H));
 	this->setOrigin(0.f, (float)(-WIN_H + PLAYER_H));
 	this->setScale(1.f, 1.f);
-	this->setPosition(sf::Vector2f((float)((WIN_W - PLAYER_W) / 2), 0.f));
+	this->setPosition(sf::Vector2f((float)((WORLD_W - PLAYER_W) / 2), 0.f));
 	this->_animation.restart();
 	this->_animation_state = IDLE;
 	this->_frame_id = 0;
@@ -110,8 +110,8 @@ void	Player::_clamp_position()
 
 	if (pos.x < -PLAYER_CLAMP_PADDING)
 		pos.x = -PLAYER_CLAMP_PADDING;
-	if (pos.x > PLAYER_CLAMP_PADDING + (float)(WIN_W - PLAYER_W))
-		pos.x = PLAYER_CLAMP_PADDING + (float)(WIN_W - PLAYER_W);
+	if (pos.x > PLAYER_CLAMP_PADDING + (float)(WORLD_W - PLAYER_W))
+		pos.x = PLAYER_CLAMP_PADDING + (float)(WORLD_W - PLAYER_W);
 	if (pos.y > 0)
 		pos.y = 0;
 	if (pos.y < -(WIN_H - PLAYER_H))

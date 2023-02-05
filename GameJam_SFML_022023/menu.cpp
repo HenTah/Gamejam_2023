@@ -45,6 +45,13 @@ void	Menu::update_values(Game* game)
 
 void	Menu::render(sf::RenderWindow& window)
 {
+	float	offset = -(window.getView().getCenter().x - WIN_W / 2.f);
+
+	_bg_shadow.setOrigin(sf::Vector2f(offset, 0.f));
+	_button_play.setOrigin(sf::Vector2f(offset, 0.f));
+	_button_exit.setOrigin(sf::Vector2f(offset, 0.f));
+	_volume_bar_frame.setOrigin(sf::Vector2f(offset, 0.f));
+	_volume_bar.setOrigin(sf::Vector2f(offset, 0.f));
 	window.draw(_bg_shadow);
 	window.draw(_button_play);
 	window.draw(_button_exit);
@@ -60,6 +67,9 @@ void	Menu::handle_actions(Game* game)
 	sf::Vector2f	pos = sf::Vector2f(
 		(float)sf::Mouse::getPosition(game->window).x,
 		(float)sf::Mouse::getPosition(game->window).y);
+	float			offset = -(game->window.getView().getCenter().x - WIN_W / 2.f);
+
+	pos.x -= offset;
 
 	if (_button_play.getGlobalBounds().contains(pos))
 		game->set_state(STATE_GAME);
