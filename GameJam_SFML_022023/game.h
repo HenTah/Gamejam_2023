@@ -12,6 +12,7 @@ public:
 	std::vector<Root>	roots;
 	std::vector<Enemy>	enemies;
 	std::vector<Explosion> particles;
+	sf::Time			score;
 	sf::Clock			clock;
 	sf::Time			delta;
 	sf::RenderWindow	window;
