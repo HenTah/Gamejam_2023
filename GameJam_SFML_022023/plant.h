@@ -25,6 +25,7 @@ public:
 	void			update(float dt);
 	void			draw(sf::RenderWindow& window);
 	void			translate(sf::Vector2f offset);
+	float get_pos();
 	sf::FloatRect	getGlobalBounds();
 	int intersects(sf::FloatRect collider);
 	void			cut(double height);

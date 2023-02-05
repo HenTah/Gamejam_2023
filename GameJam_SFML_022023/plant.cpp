@@ -82,7 +82,11 @@
 			segment.setPosition(newPosition);
 		}
 	}
-
+	
+	float Root::get_pos()
+	{
+		return _base.getPosition().x;
+	}
 	sf::FloatRect Root::getGlobalBounds()
 	{
 		bool first = true;

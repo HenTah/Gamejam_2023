@@ -43,6 +43,8 @@ public:
 	void	exit_game();
 
 private:
+	bool				_enemies_left;
+	bool				_enemies_right;
 	sf::Clock			_growth_timer;
 	sf::Clock			_spawn_timer;
 	int					_state;
