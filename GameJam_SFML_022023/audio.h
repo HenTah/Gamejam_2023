@@ -2,6 +2,7 @@
 #include "main.h"
 
 constexpr int	DEFAULT_VOLUME = 10.f;
+constexpr int	MAX_VOLUME = 50.f;
 
 class Audio
 {

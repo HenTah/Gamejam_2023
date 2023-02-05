@@ -28,8 +28,8 @@ void	Menu::init(Game* game)
 	_volume_bar_frame.setPosition(sf::Vector2f((float)((WIN_W - 365) / 2), (float)(WIN_H / 4 * 3 - 37 / 2)));
 
 	_volume_bar.setTexture(&game->ui_texture);
-	_volume_bar.setSize(sf::Vector2f(DEFAULT_VOLUME * 395 / 100.f, 37.f));
-	_volume_bar.setTextureRect(sf::IntRect(569, 173, DEFAULT_VOLUME * 395 / 100, 37));
+	_volume_bar.setSize(sf::Vector2f(DEFAULT_VOLUME * 395 / MAX_VOLUME, 37.f));
+	_volume_bar.setTextureRect(sf::IntRect(569, 173, DEFAULT_VOLUME * 395 / MAX_VOLUME, 37));
 	_volume_bar.setScale(1.f, 1.f);
 	_volume_bar.setPosition(sf::Vector2f((float)((WIN_W - 365) / 2), (float)(WIN_H / 4 * 3 - 37 / 2)));
 
@@ -42,8 +42,8 @@ void	Menu::init(Game* game)
 
 void	Menu::update_values(Game* game)
 {
-	_volume_bar.setSize(sf::Vector2f(game->audio.get_volume() * 395 / 100.f, 37.f));
-	_volume_bar.setTextureRect(sf::IntRect(569, 173, game->audio.get_volume() * 395 / 100, 37));
+	_volume_bar.setSize(sf::Vector2f(game->audio.get_volume() * 395 / MAX_VOLUME, 37.f));
+	_volume_bar.setTextureRect(sf::IntRect(569, 173, game->audio.get_volume() * 395 / (int)MAX_VOLUME, 37));
 }
 
 void	Menu::render(sf::RenderWindow& window)
@@ -84,5 +84,5 @@ void	Menu::handle_actions(Game* game)
 
 	if (_volume_bar_frame.getGlobalBounds().contains(pos))
 		game->audio.set_volume((int)((pos.x - _volume_bar_frame.getGlobalBounds().left)
-				/ _volume_bar_frame.getGlobalBounds().width * 100.f));
+				/ _volume_bar_frame.getGlobalBounds().width * MAX_VOLUME));
 }

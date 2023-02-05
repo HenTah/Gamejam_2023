@@ -225,11 +225,13 @@ void	Game::render()
 void	Game::handle_view()
 {
 	float	player_center = player.getPosition().x + PLAYER_W / 2.f;
+	float	view_center = view.getCenter().x;
 
-	if (player_center < WIN_W / 2.f || player_center >(float)WORLD_W - WIN_W / 2.f)
+	if ((view_center <= WIN_W / 2.f && player_center <= WIN_W / 2.f)
+		|| (view_center >= (float)WORLD_W - WIN_W / 2.f && player_center >= (float)WORLD_W - WIN_W / 2.f))
 		return;
 
-	float	offset = player_center - view.getCenter().x;
+	float	offset = player_center - view_center;
 
 	view.move(sf::Vector2f(fabsf(offset) * offset / (WIN_W / 2.f) * 0.5f, 0.f));
 	window.setView(view);

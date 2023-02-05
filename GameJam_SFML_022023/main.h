@@ -19,7 +19,7 @@ constexpr int WIN_H = 720;
 constexpr int WORLD_W = 8840;
 constexpr int WORLD_H = 720;
 constexpr float BG_SCALE = 5.65f;
-constexpr float BG_RELATIVE_SCALE = 13.f;
+constexpr float BG_RELATIVE_SCALE = 12.2f;
 
 constexpr int OVERWHELM_ENEMY_COUNT = 100.f;
 
