@@ -54,7 +54,7 @@ public:
 	void			attack();
 	sf::FloatRect	get_attack_bounds();
 	bool			is_attacking();
-	void			check_slime_bounce(Enemy& enemy);
+	bool			check_slime_bounce(Enemy& enemy);
 private:
 	int				_health;
 	sf::Vector2f	_velocity;

@@ -11,6 +11,7 @@ Game::Game() {
 	view.setSize(sf::Vector2f((float)WIN_W, (float)WIN_H));
 	window.setView(view);
 
+	score = sf::Time();
 	delta = clock.restart();
 	_next_growth = 0.f;
 	_state = STATE_GAME;
@@ -68,7 +69,7 @@ void	Game::update_growth()
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
 		std::uniform_real_distribution<float> grow_timer(1.f, 5.f);
-		std::uniform_real_distribution<float> grow_size(50.f, 200.f);
+		std::uniform_real_distribution<float> grow_size(100.f, 200.f);
 		std::uniform_real_distribution<float> grow_speed(25.f, 100.f);
 
 		_next_growth = grow_timer(engine);
@@ -85,8 +86,8 @@ void Game::spawner()
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
 		std::uniform_real_distribution<float> spawn_timer(1.f, 5.f);
-		std::uniform_real_distribution<float> spawn_scale(0.75f, 2.f);
-		std::uniform_real_distribution<float> spawn_speed(100.f, 200.f);
+		std::uniform_real_distribution<float> spawn_scale(0.75f, 1.25f);
+		std::uniform_real_distribution<float> spawn_speed(50.f, 200.f);
 
 		_next_spawn = spawn_timer(engine);
 		_spawn_timer.restart();
@@ -104,17 +105,17 @@ void	Game::update_values()
 		menu.handle_actions(this);
 		return;
 	}
+	score += delta;
 
 	sf::FloatRect obj;
 	sf::FloatRect collider = player.get_attack_bounds();
-	int i;
 	for (auto root_it = roots.begin(); root_it != roots.end();)
 	{
 		(*root_it).update(delta.asSeconds());
 		obj = (*root_it).getGlobalBounds();
 		if (player.is_attacking() )
 		{
-			i = (*root_it).intersects(collider);
+			int i = (*root_it).intersects(collider);
 
 			if (i == 0)
 			{
@@ -146,10 +147,21 @@ void	Game::update_values()
 
 	player.handle_movement(delta);
 
-	for (Enemy& enemy : enemies)
+	for (auto enemy_it = enemies.begin(); enemy_it != enemies.end();)
 	{
-		enemy.update_position(delta, &roots);
-		player.check_slime_bounce(enemy);
+		if ((*enemy_it).get_health() == 100.f)
+		{
+			if (player.check_slime_bounce(*enemy_it))
+				(*enemy_it).hit();
+			
+		}
+		(*enemy_it).update_position(delta, &roots);
+		if ((*enemy_it).get_health() < 0)
+		{
+			enemy_it = enemies.erase(enemy_it);
+		}
+		else
+			enemy_it++;
 	}
 
 	player.update_position(delta);

@@ -8,6 +8,8 @@ class Enemy : public sf::RectangleShape
 public:
 	Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture);
 	void			update_position(sf::Time delta, std::vector<Root>* roots);
+	float get_health();
+	void hit();
 	bool			is_grounded();
 private:
 	bool			_walk;
@@ -15,7 +17,7 @@ private:
 	Root			*_climbing_root;
 	sf::Clock		_animation;
 	sf::Vector2f	_area;
-	int				_health;
+	float			_health;
 	sf::Vector2f	_velocity;
 	int				_frame_id;
 	void			_update_frame();

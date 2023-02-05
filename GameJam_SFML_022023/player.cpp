@@ -96,10 +96,10 @@ bool	Player::is_attacking()
 		&& this->_frame_id <= ANIMATION_FRAMES[HIT].second);
 }
 
-void	Player::check_slime_bounce(Enemy& enemy)
+bool	Player::check_slime_bounce(Enemy& enemy)
 {
 	if (!enemy.is_grounded() || this->_velocity.y < 0.f)
-		return;
+		return false;
 
 	sf::FloatRect	below_player = this->getGlobalBounds();
 	below_player.top += (float)PLAYER_H + 10.f;
@@ -108,9 +108,10 @@ void	Player::check_slime_bounce(Enemy& enemy)
 	below_player.width = (float)PLAYER_BOUNCE_HITBOX_W;
 
 	if (!enemy.getGlobalBounds().intersects(below_player))
-		return;
+		return false;
 	this->_velocity.y = JUMP_BOUNCE_MULTIPLIER * -JUMP_VELOCITY;
 	this->_change_state(JUMP);
+	return true;
 }
 
 void	Player::_jump()
