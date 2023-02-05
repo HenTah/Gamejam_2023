@@ -88,3 +88,8 @@ void	Enemy::_progress_animation()
 	}
 	this->_update_frame();
 }
+
+bool	Enemy::is_grounded()
+{
+	return _grounded;
+}

@@ -8,6 +8,7 @@ class Enemy : public sf::RectangleShape
 public:
 	Enemy(sf::Vector2f pos, double scale, double speed, sf::Texture* texture);
 	void			update_position(sf::Time delta, std::vector<Root>* roots);
+	bool			is_grounded();
 private:
 	bool			_walk;
 	bool			_grounded;

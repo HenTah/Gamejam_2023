@@ -145,7 +145,7 @@ void	Game::update_values()
 	{
 		enemy.update_position(delta, &roots);
 	}
-	player.handle_movement(delta);
+	player.handle_movement(this, delta);
 	player.update_position(delta);
 
 	if (player.is_attacking())

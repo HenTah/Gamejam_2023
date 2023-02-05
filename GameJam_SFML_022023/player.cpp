@@ -25,7 +25,7 @@ void	Player::take_damage(int damage)
 	this->_health -= damage;
 }
 
-void	Player::handle_movement(sf::Time delta)
+void	Player::handle_movement(Game* game, sf::Time delta)
 {
 	this->_is_idle = true;
 
@@ -50,6 +50,8 @@ void	Player::handle_movement(sf::Time delta)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		this->_jump();
+
+	this->_check_slime_bounce(game);
 
 	if (this->_is_idle
 		&& this->getPosition().y >= 0.f
@@ -102,6 +104,29 @@ void	Player::_jump()
 		return;
 	this->_change_state(JUMP);
 	this->_velocity.y = -JUMP_VELOCITY;
+}
+
+void	Player::_check_slime_bounce(Game *game)
+{
+	if (this->_velocity.y < 0.f)
+		return;
+
+	sf::FloatRect	below_player = this->getGlobalBounds();
+	below_player.top += (float)PLAYER_H + 10.f;
+	below_player.left += (PLAYER_W - PLAYER_BOUNCE_HITBOX_W) / 2.f;
+	below_player.height = (float)PLAYER_BOUNCE_HITBOX_H;
+	below_player.width = (float)PLAYER_BOUNCE_HITBOX_W;
+
+	for (Enemy& enemy : game->enemies)
+	{
+		if (!enemy.is_grounded())
+			continue;
+		if (!enemy.getGlobalBounds().intersects(below_player))
+			continue;
+		this->_velocity.y = JUMP_BOUNCE_MULTIPLIER * -JUMP_VELOCITY;
+		this->_change_state(JUMP);
+		break;
+	}
 }
 
 void	Player::_clamp_position()
