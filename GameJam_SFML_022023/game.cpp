@@ -26,7 +26,7 @@ Game::Game() {
 	if (!enemy_texture.loadFromFile(ENEMY_TEXTURE))
 		exit(NULL);
 	bg_sprite.setTexture(bg_texture);
-	bg_sprite.setScale(6.f, 6.f);
+	bg_sprite.setScale(BG_SCALE, BG_SCALE);
 	bg_sprite.setPosition(0.f, -50.f);
 	audio.init();
 	menu.init();
@@ -182,10 +182,14 @@ void	Game::handle_view()
 
 	if (player_center < WIN_W / 2.f || player_center > (float)WORLD_W - WIN_W / 2.f)
 		return;
+
 	float	offset = player_center - view.getCenter().x;
 
-	view.move(sf::Vector2f(fabsf(offset) * offset / (WIN_W / 2.f), 0.f));
+	view.move(sf::Vector2f(fabsf(offset) * offset / (WIN_W / 2.f) * 0.5f, 0.f));
 	window.setView(view);
+
+	float	bg_offset = -(window.getView().getCenter().x - WIN_W / 2.f);
+	bg_sprite.setOrigin(sf::Vector2f(bg_offset / BG_RELATIVE_SCALE, 0.f));
 }
 
 void	Game::set_state(int state)

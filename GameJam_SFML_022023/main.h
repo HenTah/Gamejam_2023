@@ -17,6 +17,8 @@ constexpr int WIN_W = 1280;
 constexpr int WIN_H = 720;
 constexpr int WORLD_W = 2560;
 constexpr int WORLD_H = 720;
+constexpr int BG_SCALE = 6.f;
+constexpr int BG_RELATIVE_SCALE = 13.f;
 
 enum e_sounds
 {
