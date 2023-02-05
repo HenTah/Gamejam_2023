@@ -96,15 +96,27 @@ void	Game::update_values()
 
 	sf::FloatRect obj;
 	sf::FloatRect collider = player.get_attack_bounds();
-	for (Root& root : roots)
+	int i;
+	for (auto root_it = roots.begin(); root_it != roots.end();)
 	{
-		root.update(delta.asSeconds());
-		obj = root.getGlobalBounds();
-		if (player.is_attacking() && collider.intersects(obj))
+		(*root_it).update(delta.asSeconds());
+		obj = (*root_it).getGlobalBounds();
+		if (player.is_attacking() )
 		{
-			root.cut(collider.top);
-			audio.play_sound(SOUND_HIT);
+			i = (*root_it).intersects(collider);
+
+			if (i == 0)
+			{
+				root_it = roots.erase(root_it);
+				continue;
+			}
+			else if(i > 0)
+			{
+				(*root_it).cut(i);
+				audio.play_sound(SOUND_HIT);
+			}
 		}
+		root_it++;
 	}
 	update_growth();
 	spawner();

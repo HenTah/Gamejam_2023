@@ -106,12 +106,27 @@
 			
 	}
 
+	int Root::intersects(sf::FloatRect collider)
+	{
+		sf::FloatRect rect;
+		for (int i = 0; i < _segments.size(); i++)
+		{
+			sf::FloatRect root_segment = _segments[i].getGlobalBounds();
+			if (root_segment.intersects(collider))
+			{
+				return i;
+			}
+
+		}
+		return -1;
+	}
+
 	void Root::cut(double height)
 	{
-		for (auto& segment : _segments)
+		for (const auto& segment : _segments)
 		{
 			if (height < segment.getPosition().y + segment.getSize().y)
-			{
+			{					
 				_base.setPosition(sf::Vector2f(_base.getPosition().x, _segments.back().getPosition().y - _base.getSize().y));
 				_segments.pop_back();
 				_alive = -2.5f;
@@ -124,4 +139,15 @@
 	bool Root::getState()
 	{
 		return _grounded;
+	}
+
+	void Root::cut(int i)
+	{
+		if (i < 0)
+			return;
+		auto it = (_segments.begin() + i);
+		_segments.erase(it, _segments.end());
+		_base.setPosition(sf::Vector2f(_base.getPosition().x, _segments.back().getPosition().y));
+		_alive = -2.5f;
+		_grounded = false;
 	}

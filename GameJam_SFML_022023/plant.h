@@ -26,8 +26,10 @@ public:
 	void			draw(sf::RenderWindow& window);
 	void			translate(sf::Vector2f offset);
 	sf::FloatRect	getGlobalBounds();
+	int intersects(sf::FloatRect collider);
 	void			cut(double height);
 	bool			getState();
+	void			cut(int i);
 private:
 	double			_speed;
 	bool			_killed;
