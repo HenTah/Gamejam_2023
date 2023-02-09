@@ -68,9 +68,16 @@ void	Game::update_growth()
 {
 	if (_growth_timer.getElapsedTime().asSeconds() > _next_growth)
 	{
+		double difficulty = score.asSeconds();
+		difficulty * 0.001;
+		if (difficulty > 0.49)
+			difficulty = 0.49;
+		double growth_cap = score.asSeconds();
+		if (growth_cap > 500)
+			growth_cap = 500;
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
-		std::uniform_real_distribution<float> grow_timer(1.f, 3.f);
+		std::uniform_real_distribution<float> grow_timer(1.5f - difficulty, 3.f - growth_cap * (2 / 500) - difficulty);
 		std::uniform_real_distribution<float> grow_size(100.f, 200.f);
 		std::uniform_real_distribution<float> grow_speed(50.f, 200.f);
 
@@ -84,15 +91,22 @@ void	Game::update_growth()
 void Game::spawner()
 {
 	static int direction;
+	double difficulty = score.asSeconds();
+	difficulty * 0.0001;
+	if (difficulty > 0.19)
+		difficulty = 0.19;
+	double spawn_cap = score.asSeconds();
+	if (spawn_cap > 900)
+		spawn_cap = 900;
 	if (!direction)
 		direction = 1;
 	if (_spawn_timer.getElapsedTime().asSeconds() > _next_spawn)
 	{
 		std::mt19937 engine(std::random_device{}());
 		std::uniform_real_distribution<float> play_area_x(50, WORLD_W);
-		std::uniform_real_distribution<float> spawn_timer(0.5f, 2.f);
+		std::uniform_real_distribution<float> spawn_timer(0.2f - difficulty, 2.f - spawn_cap * (1.5 / 900) - difficulty);
 		std::uniform_real_distribution<float> spawn_scale(0.75f, 1.25f);
-		std::uniform_real_distribution<float> spawn_speed(100.f, 300.f);
+		std::uniform_real_distribution<float> spawn_speed(200.f, 400.f);
 
 		_next_spawn = spawn_timer(engine);
 		_spawn_timer.restart();
@@ -133,8 +147,10 @@ void	Game::update_values()
 				audio.play_sound(SOUND_HIT);
 				for (auto& enemy : enemies)
 				{
-					if (enemy.get_root() == &(*root_it))
+					if (obj.contains(enemy.getPosition()))
 					{
+						if (i == 0)
+							enemy.hit();
 						enemy.set_root();
 					}
 				}
@@ -270,6 +286,7 @@ void	Game::_init_ui()
 	_overwhelming_bar.setPosition(sf::Vector2f(10.f, 10.f));
 
 	_enemies_left_icon.setTexture(&ui_texture);
+	_enemies_left_icon.setFillColor(sf::Color::Red);
 	_enemies_left_icon.setSize(sf::Vector2f(118.f, 118.f));
 	_enemies_left_icon.setTextureRect(sf::IntRect(144, 0, 118, 118));
 	_enemies_left_icon.setScale(1.f, 1.f);
@@ -278,6 +295,7 @@ void	Game::_init_ui()
 	_enemies_left_icon.setPosition(sf::Vector2f(138.f, WIN_H / 2.f));
 
 	_enemies_right_icon.setTexture(&ui_texture);
+	_enemies_right_icon.setFillColor(sf::Color::Red);
 	_enemies_right_icon.setSize(sf::Vector2f(118.f, 118.f));
 	_enemies_right_icon.setTextureRect(sf::IntRect(144, 0, 118, 118));
 	_enemies_right_icon.setScale(1.f, 1.f);

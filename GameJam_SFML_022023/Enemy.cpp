@@ -34,47 +34,48 @@ Root* Enemy::get_root()
 
 void	Enemy::set_root()
 {
-	_climbing_root = NULL;
+	this->_climbing_root = NULL;
 }
 
 void	Enemy::update_position(sf::Time delta, std::vector<Root>* roots)
 {
 	sf::FloatRect bounds = this->getGlobalBounds();
 	//looking for roots
-	if (!_grounded && _walk)
+	if (!this->_grounded && _walk)
 	{
-		for (Root& root : *roots)
+		for (auto& root : *roots)
 		{
 			if (root.getState())
 			{
 				sf::FloatRect rootbounds = root.getGlobalBounds();
 				if (rootbounds.width > bounds.width && std::abs(rootbounds.left - bounds.left) < 50.f && bounds.intersects(rootbounds))
 				{
-					_climbing_root = &root;
+					this->_climbing_root = &root;
 					_area = sf::Vector2f(rootbounds.left, rootbounds.left + rootbounds.width);
-					_walk = false;
+					this->_walk = false;
 					_velocity.y = 100.f;
+					break;
 				}
 			}
 		}
 	}
 	//if on ground set grounded and start walking
-	if (!_grounded && bounds.top > WIN_H - bounds.height)
+	if (!this->_grounded && bounds.top > WIN_H - bounds.height)
 	{
 		_velocity.y = 0.f;
 		_area = sf::Vector2f(0, WORLD_W);
-		_grounded = true;
+		this->_grounded = true;
+		this->_climbing_root = NULL;
 		//_velocity.x = 100.f;
-		_walk = true;
+		this->_walk = true;
 	}
 	//walk aroound game area
-	if (_walk || !_grounded)
+	if (this->_walk || !this->_grounded)
 	{
-		if (!_grounded
-			&& ((!_climbing_root && !_walk)
-				|| (_climbing_root && !(_climbing_root->getState()))))
+		if (!this->_grounded && !this->_walk)
 		{
-			_velocity.y = 500.f;
+			if (!this->_climbing_root)
+				_velocity.y = 700.f;
 		}
 		if (getPosition().x > _area.y)
 			_velocity.x = -std::abs(_velocity.x);

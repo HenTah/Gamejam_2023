@@ -133,7 +133,7 @@ void Root::cut(float height)
 		{
 			_base.setPosition(sf::Vector2f(_base.getPosition().x, _segments.back().getPosition().y - _base.getSize().y));
 			_segments.pop_back();
-			_alive = -2.5f;
+			_alive = -10.f;
 			_grounded = false;
 			break;
 		}
@@ -152,6 +152,6 @@ void Root::cut(int i)
 	auto it = (_segments.begin() + i);
 	_segments.erase(it, _segments.end());
 	_base.setPosition(sf::Vector2f(_base.getPosition().x, _segments.back().getPosition().y));
-	_alive = -2.5f;
+	_alive = -15.f;
 	_grounded = false;
 }
