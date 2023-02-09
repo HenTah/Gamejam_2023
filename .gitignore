@@ -396,3 +396,17 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Visual Studio leftovers from cmake
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# CMake leftovers
+CMakeFiles/*
+cmake_install.cmake
+CMakeCache.txt
+install_manifest.txt
+*.sln
+*.exe
+SFML-*/*
