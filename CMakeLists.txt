@@ -31,6 +31,14 @@ elseif(APPLE)
 	find_library(SFML_WINDOW_LIBRARY sfml-window HINTS "${SFML_LIBRARY_DIR}")
 	find_library(SFML_SYSTEM_LIBRARY sfml-system HINTS "${SFML_LIBRARY_DIR}")
 	find_library(SFML_AUDIO_LIBRARY sfml-audio HINTS "${SFML_LIBRARY_DIR}")
+else()
+	set(SFML_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.5.1")
+	set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.5.1/lib/cmake/SFML")
+	set(SFML_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.5.1/include")
+	set(SFML_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.5.1/lib")
+	set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/lib/cmake/SFML" ${CMAKE_MODULE_PATH})
+	find_package(SFML COMPONENTS graphics window system audio REQUIRED)
+	
 endif()
 
 # Add the source files

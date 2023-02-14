@@ -45,10 +45,12 @@ void	Player::handle_movement(sf::Time delta)
 		this->_change_state(RUN);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 		this->attack();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 		this->_jump();
 
 	if (this->_is_idle
